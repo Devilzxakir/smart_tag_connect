@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">NFC Smart Keychain</string>
+    <string name="title_activity_main">NFC Smart Keychain</string>
+    <string name="package_name">app.lovable.nfckeychain</string>
+    <string name="custom_url_scheme">app.lovable.nfckeychain</string>
+</resources>
