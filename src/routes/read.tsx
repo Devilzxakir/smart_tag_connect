@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Loader2, Radio, RefreshCw } from "lucide-react";
+import { ExternalLink, Loader2, Radio, RefreshCw } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
@@ -14,7 +14,10 @@ export const Route = createFileRoute("/read")({
       { title: "Read NFC — NFC Smart Keychain" },
       { name: "description", content: "Scan an NFC keychain tag and see what is stored on it." },
       { property: "og:title", content: "Read NFC — NFC Smart Keychain" },
-      { property: "og:description", content: "Scan an NFC keychain tag and see what is stored on it." },
+      {
+        property: "og:description",
+        content: "Scan an NFC keychain tag and see what is stored on it.",
+      },
     ],
   }),
   component: ReadPage,
@@ -52,6 +55,8 @@ function ReadPage() {
     }
   };
 
+  const isUrl = (v: string) => /^https?:\/\//i.test(v.trim());
+
   return (
     <AppShell title="Read NFC" subtitle="Scan a tag to see what's on it" back="/tools">
       <div className="space-y-5">
@@ -60,7 +65,9 @@ function ReadPage() {
 
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <Radio
-            className={scanning ? "mx-auto size-8 animate-ping text-primary" : "mx-auto size-8 text-primary"}
+            className={
+              scanning ? "mx-auto size-8 animate-ping text-primary" : "mx-auto size-8 text-primary"
+            }
           />
           <p className="mt-4 text-sm font-medium text-card-foreground">
             {scanning
@@ -72,7 +79,11 @@ function ReadPage() {
         </div>
 
         <Button size="lg" className="w-full" onClick={scan} disabled={scanning}>
-          {scanning ? <Loader2 className="mr-2 size-4 animate-spin" /> : <RefreshCw className="mr-2 size-4" />}
+          {scanning ? (
+            <Loader2 className="mr-2 size-4 animate-spin" />
+          ) : (
+            <RefreshCw className="mr-2 size-4" />
+          )}
           {scanning ? "Scanning…" : support === "demo" ? "Start demo scan" : "Start scan"}
         </Button>
 
@@ -92,14 +103,28 @@ function ReadPage() {
                 {demoRead ? "Nothing saved yet to simulate." : "This tag is empty."}
               </p>
             ) : (
-              values.map((v) => (
-                <pre
-                  key={v}
-                  className="mt-2 whitespace-pre-wrap break-all font-mono text-sm text-card-foreground"
-                >
-                  {v}
-                </pre>
-              ))
+              values.map((v) => {
+                const trimmed = v.trim();
+                const isDestinationUrl = isUrl(trimmed);
+                return (
+                  <div key={v} className="mt-2">
+                    {isDestinationUrl && (
+                      <p className="text-xs font-medium text-success mb-1 flex items-center gap-1">
+                        <ExternalLink className="size-3" /> Destination URL detected
+                      </p>
+                    )}
+                    <pre className="whitespace-pre-wrap break-all font-mono text-sm text-card-foreground bg-muted p-3 rounded-xl">
+                      {trimmed}
+                    </pre>
+                    {isDestinationUrl && (
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        This is a standard NDEF URI record. Tap this tag with another NFC-enabled
+                        phone to open the link.
+                      </p>
+                    )}
+                  </div>
+                );
+              })
             )}
             {demoRead && (
               <p className="mt-3 text-xs text-warning">

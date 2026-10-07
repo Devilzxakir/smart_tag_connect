@@ -83,14 +83,14 @@ export const resolveTag = createServerFn({ method: "POST" })
       enabled: row.enabled,
       mode: row.mode === "dynamic" ? "dynamic" : "direct",
       destination: row.enabled && !row.lost_mode ? (row.content ?? "") : "",
-      lostMode: row.lost_mode,
+      lostMode: row.lost_mode ?? false,
       lost: row.lost_mode
         ? {
             message: row.lost_message ?? "",
             contactName: row.lost_contact_name ?? "",
             contactPhone: row.lost_contact_phone ?? "",
             contactEmail: row.lost_contact_email ?? "",
-            formEnabled: row.lost_form_enabled,
+            formEnabled: row.lost_form_enabled ?? true,
           }
         : null,
     };

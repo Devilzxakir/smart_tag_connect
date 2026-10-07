@@ -1,5 +1,37 @@
 import type { NfcAvailability, NfcReadResult, NfcRecord, NfcService } from "./types";
 
+interface NDEFReaderEventTarget extends EventTarget {
+  onreading: ((event: NDEFReadingEvent) => void) | null;
+  onreadingerror: ((event: Event) => void) | null;
+  scan: (options: { signal: AbortSignal }) => Promise<void>;
+  write: (message: NDEFMessage, options?: { signal: AbortSignal }) => Promise<void>;
+}
+
+interface NDEFReadingEvent extends Event {
+  message: NDEFMessage;
+}
+
+interface NDEFMessage {
+  records: NDEFRecord[];
+}
+
+interface NDEFRecord {
+  recordType: string;
+  mediaType?: string;
+  encoding?: string;
+  data?: ArrayBuffer | ArrayBufferView;
+}
+
+interface NDEFReaderConstructor {
+  new (): NDEFReaderEventTarget;
+}
+
+declare global {
+  interface Window {
+    NDEFReader?: NDEFReaderConstructor;
+  }
+}
+
 /** Web NFC (Chrome on Android). Reads and writes real tags through the browser. */
 export class WebNfcService implements NfcService {
   readonly engine = "web" as const;
@@ -8,15 +40,17 @@ export class WebNfcService implements NfcService {
   private controller: AbortController | null = null;
 
   static isSupported(): boolean {
-    return (
-      typeof window !== "undefined" && window.isSecureContext && "NDEFReader" in window
-    );
+    return typeof window !== "undefined" && window.isSecureContext && "NDEFReader" in window;
   }
 
-  private reader(): any {
-    const Ctor = (window as unknown as { NDEFReader?: new () => any }).NDEFReader;
+  private reader(): NDEFReaderEventTarget {
+    const Ctor = (window as { NDEFReader?: NDEFReaderConstructor }).NDEFReader;
     if (!Ctor) throw new Error("This browser has no NFC access.");
     return new Ctor();
+  }
+
+  private encodeString(str: string): Uint8Array {
+    return new TextEncoder().encode(str);
   }
 
   async isAvailable(): Promise<NfcAvailability> {
@@ -36,8 +70,12 @@ export class WebNfcService implements NfcService {
         r.recordType === "empty"
           ? { recordType: "empty" }
           : r.recordType === "mime"
-            ? { recordType: "mime", mediaType: r.mediaType ?? "text/plain", data: r.value }
-            : { recordType: r.recordType, data: r.value },
+            ? {
+                recordType: "mime",
+                mediaType: r.mediaType ?? "text/plain",
+                data: this.encodeString(r.value),
+              }
+            : { recordType: r.recordType, data: this.encodeString(r.value) },
       ),
     };
     await this.reader().write(message, cancel ? { signal: cancel } : undefined);
@@ -74,11 +112,7 @@ export class WebNfcService implements NfcService {
         reject(new Error("Could not read this tag."));
       };
 
-      r.onreading = (event: {
-        message: {
-          records: { recordType: string; mediaType?: string; encoding?: string; data?: DataView }[];
-        };
-      }) => {
+      r.onreading = (event: NDEFReadingEvent) => {
         clearTimeout(timer);
         controller.abort();
         const records: NfcRecord[] = [];

@@ -1,5 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, Eraser, Loader2, PenLine, RefreshCw, ScanLine, XCircle, CheckCircle2 } from "lucide-react";
+import {
+  Activity,
+  Eraser,
+  Globe,
+  Loader2,
+  PenLine,
+  RefreshCw,
+  ScanLine,
+  XCircle,
+  CheckCircle2,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
@@ -13,7 +23,10 @@ export const Route = createFileRoute("/tools")({
       { title: "NFC Tools — NFC Smart Keychain" },
       { name: "description", content: "Read, write, rewrite and erase NFC tags from your phone." },
       { property: "og:title", content: "NFC Tools — NFC Smart Keychain" },
-      { property: "og:description", content: "Read, write, rewrite and erase NFC tags from your phone." },
+      {
+        property: "og:description",
+        content: "Read, write, rewrite and erase NFC tags from your phone.",
+      },
     ],
   }),
   component: ToolsPage,
@@ -57,9 +70,30 @@ function ToolsPage() {
 
         <NfcModeCard status={status} />
 
-        <ToolLink to="/read" icon={ScanLine} title="Read NFC" desc="Scan a tag and see its contents" />
-        <ToolLink to="/write" icon={PenLine} title="Write NFC" desc="Save a link, text, contact and more" />
-        <ToolLink to="/tags" icon={RefreshCw} title="Rewrite NFC" desc="Pick a saved tag and write it again" />
+        <ToolLink
+          to="/write-destination"
+          icon={Globe}
+          title="Write Destination URL"
+          desc="Write a URL directly to an NFC tag"
+        />
+        <ToolLink
+          to="/read"
+          icon={ScanLine}
+          title="Read NFC"
+          desc="Scan a tag and see its contents"
+        />
+        <ToolLink
+          to="/write"
+          icon={PenLine}
+          title="Write NFC"
+          desc="Save a link, text, contact and more"
+        />
+        <ToolLink
+          to="/tags"
+          icon={RefreshCw}
+          title="Rewrite NFC"
+          desc="Pick a saved tag and write it again"
+        />
 
         <div className="rounded-2xl border border-border bg-card p-4">
           <div className="flex items-center gap-4">
@@ -71,7 +105,12 @@ function ToolsPage() {
               <p className="text-xs text-muted-foreground">Clear everything stored on a tag</p>
             </div>
           </div>
-          <Button variant="outline" className="mt-4 w-full" onClick={handleErase} disabled={erasing}>
+          <Button
+            variant="outline"
+            className="mt-4 w-full"
+            onClick={handleErase}
+            disabled={erasing}
+          >
             {erasing && <Loader2 className="mr-2 size-4 animate-spin" />}
             {erasing ? "Hold tag near phone…" : "Erase a tag"}
           </Button>
@@ -109,13 +148,16 @@ function ToolLink({
   title,
   desc,
 }: {
-  to: "/read" | "/write" | "/tags" | "/diagnostics";
+  to: "/read" | "/write" | "/tags" | "/diagnostics" | "/write-destination";
   icon: typeof ScanLine;
   title: string;
   desc: string;
 }) {
   return (
-    <Link to={to} className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-4">
+    <Link
+      to={to}
+      className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-4"
+    >
       <span className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Icon className="size-5" />
       </span>

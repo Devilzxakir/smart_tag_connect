@@ -45,7 +45,7 @@ export type NfcStatus = {
 };
 
 export function getNfcStatus(): NfcStatus {
-  if (typeof window === "undefined") return { mode: "demo", reason: "Checking this device…" };
+  if (typeof window === "undefined") return { mode: "demo", reason: "Checking this device..." };
 
   if (!window.isSecureContext) {
     return {
@@ -90,9 +90,11 @@ export function getNfcStatus(): NfcStatus {
 /** Ask the browser for NFC permission (Android Chrome). Returns the resulting state. */
 export async function requestNfcPermission(): Promise<"granted" | "denied" | "prompt" | "unknown"> {
   try {
-    const status = await (navigator.permissions as unknown as {
-      query: (d: { name: string }) => Promise<{ state: "granted" | "denied" | "prompt" }>;
-    }).query({ name: "nfc" });
+    const status = await (
+      navigator.permissions as unknown as {
+        query: (d: { name: string }) => Promise<{ state: "granted" | "denied" | "prompt" }>;
+      }
+    ).query({ name: "nfc" });
     return status.state;
   } catch {
     return "unknown";
@@ -121,11 +123,53 @@ export function friendlyNfcError(e: unknown): string {
 
 /* ---------------- encoding ---------------- */
 
+const DANGEROUS_PROTOCOLS = [
+  "javascript:",
+  "data:",
+  "file:",
+  "blob:",
+  "vbscript:",
+  "intent:",
+  "content:",
+  "chrome:",
+  "about:",
+];
+
+function hasDangerousProtocol(url: string): boolean {
+  const lower = url.toLowerCase();
+  return DANGEROUS_PROTOCOLS.some((p) => lower.startsWith(p));
+}
+
 export function normalizeUrl(raw: string): string {
   const trimmed = raw.trim();
   if (!trimmed) return "";
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)) return trimmed;
   return `https://${trimmed}`;
+}
+
+export function validateUrlForNfc(raw: string): string | null {
+  const trimmed = raw.trim();
+  if (!trimmed) return "Enter a website address.";
+
+  const normalized = normalizeUrl(trimmed);
+
+  if (hasDangerousProtocol(normalized)) {
+    return "Dangerous protocol not allowed. Only https:// and http:// URLs are permitted.";
+  }
+
+  try {
+    const u = new URL(normalized);
+    if (u.protocol !== "https:" && u.protocol !== "http:") {
+      return "Only https:// and http:// URLs are allowed.";
+    }
+    if (!u.hostname.includes(".") && u.hostname !== "localhost") {
+      return "That doesn't look like a valid website address.";
+    }
+  } catch {
+    return "That doesn't look like a valid website address.";
+  }
+
+  return null;
 }
 
 /** Human-readable string of exactly what goes onto the tag. */
@@ -185,21 +229,16 @@ function toRecord(p: Payload): RecordInit {
 export function validatePayload(p: Payload): string | null {
   switch (p.type) {
     case "url": {
-      if (!p.url.trim()) return "Enter a website address.";
-      try {
-        const u = new URL(normalizeUrl(p.url));
-        if (!u.hostname.includes(".")) return "That doesn’t look like a valid website address.";
-      } catch {
-        return "That doesn’t look like a valid website address.";
-      }
-      return null;
+      return validateUrlForNfc(p.url);
     }
     case "text":
       return p.text.trim() ? null : "Enter some text.";
     case "tel":
       return /^\+?[\d\s()-]{6,}$/.test(p.phone.trim()) ? null : "Enter a valid phone number.";
     case "email":
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email.trim()) ? null : "Enter a valid email address.";
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email.trim())
+        ? null
+        : "Enter a valid email address.";
     case "vcard":
       if (!p.name.trim()) return "Enter a contact name.";
       if (p.email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email.trim()))
@@ -230,7 +269,8 @@ export type SizeCheck = { bytes: number; capacity: number; level: "ok" | "tight"
 
 export function checkSize(p: Payload): SizeCheck {
   const bytes = payloadBytes(p);
-  const level = bytes > TAG_CAPACITY_BYTES ? "over" : bytes > TAG_CAPACITY_BYTES * 0.8 ? "tight" : "ok";
+  const level =
+    bytes > TAG_CAPACITY_BYTES ? "over" : bytes > TAG_CAPACITY_BYTES * 0.8 ? "tight" : "ok";
   return { bytes, capacity: TAG_CAPACITY_BYTES, level };
 }
 
@@ -266,7 +306,9 @@ export async function cancelNfc(): Promise<void> {
 const norm = (s: string) => s.replace(/\s+/g, "").toLowerCase();
 
 /** Read back after writing to confirm the data really landed on the tag. */
-export async function verifyWrite(expected: string): Promise<"verified" | "mismatch" | "unverified"> {
+export async function verifyWrite(
+  expected: string,
+): Promise<"verified" | "mismatch" | "unverified"> {
   try {
     const values = await readTagOnce(8000);
     if (values.length === 0) return "unverified";
