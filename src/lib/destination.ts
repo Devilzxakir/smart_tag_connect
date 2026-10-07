@@ -76,13 +76,7 @@ export function validateDestination(raw: string): string | null {
 /* ---------------- destination kinds ---------------- */
 
 export type DestinationKind =
-  | "website"
-  | "google_review"
-  | "social"
-  | "phone"
-  | "email"
-  | "contact"
-  | "landing";
+  "website" | "google_review" | "social" | "phone" | "email" | "contact" | "landing";
 
 export const DESTINATION_LABELS: Record<DestinationKind, string> = {
   website: "Website",

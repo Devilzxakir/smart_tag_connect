@@ -8,9 +8,15 @@ export const Route = createFileRoute("/p/$slug")({
   head: () => ({
     meta: [
       { title: "Landing page — NFC Smart Keychain" },
-      { name: "description", content: "A simple contact and links page shared from an NFC keychain." },
+      {
+        name: "description",
+        content: "A simple contact and links page shared from an NFC keychain.",
+      },
       { property: "og:title", content: "Landing page — NFC Smart Keychain" },
-      { property: "og:description", content: "A simple contact and links page shared from an NFC keychain." },
+      {
+        property: "og:description",
+        content: "A simple contact and links page shared from an NFC keychain.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -61,7 +67,9 @@ function PublicPage() {
         )}
         <h1 className="mt-4 text-2xl font-semibold text-foreground">{page.title}</h1>
         {page.description && (
-          <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{page.description}</p>
+          <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">
+            {page.description}
+          </p>
         )}
       </div>
 

@@ -13,9 +13,15 @@ export const Route = createFileRoute("/tags/")({
   head: () => ({
     meta: [
       { title: "My Tags — NFC Smart Keychain" },
-      { name: "description", content: "Search, open and manage every NFC keychain tag you've saved." },
+      {
+        name: "description",
+        content: "Search, open and manage every NFC keychain tag you've saved.",
+      },
       { property: "og:title", content: "My Tags — NFC Smart Keychain" },
-      { property: "og:description", content: "Search, open and manage every NFC keychain tag you've saved." },
+      {
+        property: "og:description",
+        content: "Search, open and manage every NFC keychain tag you've saved.",
+      },
     ],
   }),
   component: TagsPage,
@@ -29,7 +35,12 @@ function TagsPage() {
     const q = query.trim().toLowerCase();
     if (!q) return tags;
     return tags.filter((t) =>
-      [t.name, formatNumber(t.number), t.content, t.contentType ? CONTENT_LABELS[t.contentType] : ""]
+      [
+        t.name,
+        formatNumber(t.number),
+        t.content,
+        t.contentType ? CONTENT_LABELS[t.contentType] : "",
+      ]
         .join(" ")
         .toLowerCase()
         .includes(q),
@@ -75,7 +86,9 @@ function TagsPage() {
               <div className="flex items-start justify-between gap-3">
                 <Link to="/tags/$tagId" params={{ tagId: tag.id }} className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <p className="truncate text-sm font-semibold text-card-foreground">{tag.name}</p>
+                    <p className="truncate text-sm font-semibold text-card-foreground">
+                      {tag.name}
+                    </p>
                     {tag.mode === "dynamic" && (
                       <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
                         <Link2 className="size-3" /> Dynamic

@@ -54,9 +54,15 @@ export const Route = createFileRoute("/tags/$tagId")({
   head: () => ({
     meta: [
       { title: "Tag details — NFC Smart Keychain" },
-      { name: "description", content: "View, rename, write, erase and share a single NFC keychain tag." },
+      {
+        name: "description",
+        content: "View, rename, write, erase and share a single NFC keychain tag.",
+      },
       { property: "og:title", content: "Tag details — NFC Smart Keychain" },
-      { property: "og:description", content: "View, rename, write, erase and share a single NFC keychain tag." },
+      {
+        property: "og:description",
+        content: "View, rename, write, erase and share a single NFC keychain tag.",
+      },
     ],
   }),
   component: TagDetailPage,
@@ -340,7 +346,9 @@ function TagDetailPage() {
                 )
               ) : kind === "contact" ? (
                 <Textarea
-                  placeholder={"BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nTEL:+15551234567\nEND:VCARD"}
+                  placeholder={
+                    "BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nTEL:+15551234567\nEND:VCARD"
+                  }
                   value={destination}
                   onChange={(e) => setDestinationValue(e.target.value)}
                 />
@@ -507,7 +515,12 @@ function TagDetailPage() {
             </Link>
           </Button>
 
-          <Button variant="outline" className="w-full" disabled={busy !== null} onClick={() => void doRead()}>
+          <Button
+            variant="outline"
+            className="w-full"
+            disabled={busy !== null}
+            onClick={() => void doRead()}
+          >
             {busy === "read" ? (
               <Loader2 className="mr-2 size-4 animate-spin" />
             ) : (
@@ -516,7 +529,12 @@ function TagDetailPage() {
             Read NFC
           </Button>
 
-          <Button variant="outline" className="w-full" disabled={busy !== null} onClick={() => void doErase()}>
+          <Button
+            variant="outline"
+            className="w-full"
+            disabled={busy !== null}
+            onClick={() => void doErase()}
+          >
             {busy === "erase" ? (
               <Loader2 className="mr-2 size-4 animate-spin" />
             ) : (
@@ -527,7 +545,11 @@ function TagDetailPage() {
 
           {renaming ? (
             <div className="flex gap-2">
-              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={tag.name} />
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={tag.name}
+              />
               <Button onClick={() => void saveName()}>Save</Button>
             </div>
           ) : (

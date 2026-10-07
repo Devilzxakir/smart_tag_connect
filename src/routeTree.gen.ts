@@ -18,6 +18,7 @@ import { Route as ReadRouteImport } from './routes/read'
 import { Route as TagsRouteImport } from './routes/tags'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as WriteRouteImport } from './routes/write'
+import { Route as WriteDestinationRouteImport } from './routes/write-destination'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthCompleteProfileRouteImport } from './routes/auth.complete-profile'
 import { Route as PSlugRouteImport } from './routes/p.$slug'
@@ -71,6 +72,11 @@ const ToolsRoute = ToolsRouteImport.update({
 const WriteRoute = WriteRouteImport.update({
   id: '/write',
   path: '/write',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WriteDestinationRoute = WriteDestinationRouteImport.update({
+  id: '/write-destination',
+  path: '/write-destination',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/tags': typeof TagsRouteWithChildren
   '/tools': typeof ToolsRoute
   '/write': typeof WriteRoute
+  '/write-destination': typeof WriteDestinationRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/complete-profile': typeof AuthCompleteProfileRoute
   '/p/$slug': typeof PSlugRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/read': typeof ReadRoute
   '/tools': typeof ToolsRoute
   '/write': typeof WriteRoute
+  '/write-destination': typeof WriteDestinationRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/complete-profile': typeof AuthCompleteProfileRoute
   '/p/$slug': typeof PSlugRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/tags': typeof TagsRouteWithChildren
   '/tools': typeof ToolsRoute
   '/write': typeof WriteRoute
+  '/write-destination': typeof WriteDestinationRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/complete-profile': typeof AuthCompleteProfileRoute
   '/p/$slug': typeof PSlugRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/tags'
     | '/tools'
     | '/write'
+    | '/write-destination'
     | '/auth/callback'
     | '/auth/complete-profile'
     | '/p/$slug'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/read'
     | '/tools'
     | '/write'
+    | '/write-destination'
     | '/auth/callback'
     | '/auth/complete-profile'
     | '/p/$slug'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/tags'
     | '/tools'
     | '/write'
+    | '/write-destination'
     | '/auth/callback'
     | '/auth/complete-profile'
     | '/p/$slug'
@@ -251,6 +263,7 @@ export interface RootRouteChildren {
   TagsRoute: typeof TagsRouteWithChildren
   ToolsRoute: typeof ToolsRoute
   WriteRoute: typeof WriteRoute
+  WriteDestinationRoute: typeof WriteDestinationRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthCompleteProfileRoute: typeof AuthCompleteProfileRoute
   PSlugRoute: typeof PSlugRoute
@@ -322,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/write'
       fullPath: '/write'
       preLoaderRoute: typeof WriteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/write-destination': {
+      id: '/write-destination'
+      path: '/write-destination'
+      fullPath: '/write-destination'
+      preLoaderRoute: typeof WriteDestinationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   TagsRoute: TagsRouteWithChildren,
   ToolsRoute: ToolsRoute,
   WriteRoute: WriteRoute,
+  WriteDestinationRoute: WriteDestinationRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthCompleteProfileRoute: AuthCompleteProfileRoute,
   PSlugRoute: PSlugRoute,

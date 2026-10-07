@@ -32,7 +32,10 @@ export class NativeNfcService implements NfcService {
   async read(timeoutMs = 20000, cancel?: AbortSignal): Promise<NfcReadResult> {
     cancel?.addEventListener("abort", () => void SmartNfc.cancel());
     const result = await SmartNfc.read({ timeoutMs });
-    return { records: result.records ?? [], ...(result.writable !== undefined ? { writable: result.writable } : {}) };
+    return {
+      records: result.records ?? [],
+      ...(result.writable !== undefined ? { writable: result.writable } : {}),
+    };
   }
 
   async write(records: NfcRecord[], cancel?: AbortSignal): Promise<NfcReadResult> {

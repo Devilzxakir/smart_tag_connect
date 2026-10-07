@@ -6,33 +6,38 @@ Purpose: defines HOW the system is built technically. Every technology decision 
 
 ```markdown
 # TRD: <Project Name>
+
 > File purpose: technical decisions and architecture. Depends on: 01-PRD.md.
 
 ## 1. Tech Stack (final decisions)
-| Layer | Choice | Version | Reason |
-|-------|--------|---------|--------|
-| Language | | | |
-| Frontend framework | | | |
-| Styling | | | |
-| State management | | | |
-| Backend / runtime | | | |
-| Database | | | |
-| Auth | | | |
-| Hosting / deploy | | | |
-| Testing | | | |
-Rejected alternatives (one line each, only if likely to confuse): ...
+
+| Layer                                                                 | Choice | Version | Reason |
+| --------------------------------------------------------------------- | ------ | ------- | ------ |
+| Language                                                              |        |         |        |
+| Frontend framework                                                    |        |         |        |
+| Styling                                                               |        |         |        |
+| State management                                                      |        |         |        |
+| Backend / runtime                                                     |        |         |        |
+| Database                                                              |        |         |        |
+| Auth                                                                  |        |         |        |
+| Hosting / deploy                                                      |        |         |        |
+| Testing                                                               |        |         |        |
+| Rejected alternatives (one line each, only if likely to confuse): ... |
 
 ## 2. Architecture
+
 - Style: (monolith / client-server / serverless / etc.)
 - Component diagram (ASCII or Mermaid):
 - Data flow in one paragraph:
 
 ## 3. Folder Structure
 ```
+
 project/
 ├── .ai/
 ├── src/
-│   ├── ...
+│ ├── ...
+
 ```
 (Annotate each folder with its single responsibility.)
 
@@ -69,5 +74,6 @@ project/
 ```
 
 ## Notes
+
 - If a choice is not forced by the PRD, pick the simplest option that works.
 - Pin major versions. Do not add a library without a row in section 1 or 7.

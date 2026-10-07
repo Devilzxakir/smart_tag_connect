@@ -35,12 +35,7 @@ function TagLinkPage() {
       .then((r) => {
         if (!active) return;
         setResult(r);
-        if (
-          r.found &&
-          r.enabled &&
-          !r.lostMode &&
-          /^(https?:\/\/|\/p\/)/i.test(r.destination)
-        ) {
+        if (r.found && r.enabled && !r.lostMode && /^(https?:\/\/|\/p\/)/i.test(r.destination)) {
           window.location.replace(r.destination);
         }
       })
@@ -79,7 +74,9 @@ function TagLinkPage() {
               ) : result.destination ? (
                 <Destination value={result.destination} />
               ) : (
-                <p className="text-sm text-muted-foreground">No destination set for this tag yet.</p>
+                <p className="text-sm text-muted-foreground">
+                  No destination set for this tag yet.
+                </p>
               )}
             </>
           )}
@@ -133,13 +130,7 @@ function Destination({ value }: { value: string }) {
   );
 }
 
-function LostModePage({
-  code,
-  tag,
-}: {
-  code: string;
-  tag: Extract<ResolvedTag, { found: true }>;
-}) {
+function LostModePage({ code, tag }: { code: string; tag: Extract<ResolvedTag, { found: true }> }) {
   const lost = tag.lost;
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
@@ -179,7 +170,9 @@ function LostModePage({
 
       {(lost?.contactName || lost?.contactPhone || lost?.contactEmail) && (
         <div className="rounded-xl border border-border bg-card p-4">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Contact the owner</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">
+            Contact the owner
+          </p>
           {lost?.contactName && (
             <p className="mt-2 inline-flex items-center gap-2 text-sm text-card-foreground">
               <UserRound className="size-4 text-muted-foreground" /> {lost.contactName}
@@ -213,7 +206,11 @@ function LostModePage({
             </p>
           ) : (
             <div className="mt-3 space-y-2">
-              <Input placeholder="Your name (optional)" value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                placeholder="Your name (optional)"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
               <Input
                 placeholder="How to reach you (optional)"
                 value={contact}
@@ -224,7 +221,11 @@ function LostModePage({
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              <Button className="w-full" disabled={!message.trim() || sending} onClick={() => void send()}>
+              <Button
+                className="w-full"
+                disabled={!message.trim() || sending}
+                onClick={() => void send()}
+              >
                 <Send className="mr-2 size-4" /> Send message
               </Button>
               <p className="text-[11px] text-muted-foreground">

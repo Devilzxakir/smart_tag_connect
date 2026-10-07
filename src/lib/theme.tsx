@@ -23,8 +23,10 @@ const FONTS: Record<Font, string> = {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("theme") as Theme) ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      return (
+        (localStorage.getItem("theme") as Theme) ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      );
     }
     return "light";
   });

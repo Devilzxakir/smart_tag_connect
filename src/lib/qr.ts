@@ -35,7 +35,11 @@ export async function downloadQrSvg(value: string, filename: string) {
 }
 
 export function canShareFiles(): boolean {
-  return typeof navigator !== "undefined" && typeof navigator.canShare === "function" && !!navigator.share;
+  return (
+    typeof navigator !== "undefined" &&
+    typeof navigator.canShare === "function" &&
+    !!navigator.share
+  );
 }
 
 export async function shareQr(value: string, filename: string, title: string) {
@@ -54,5 +58,11 @@ export async function shareQr(value: string, filename: string, title: string) {
 }
 
 export function safeFilename(name: string) {
-  return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "nfc-tag";
+  return (
+    name
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "nfc-tag"
+  );
 }

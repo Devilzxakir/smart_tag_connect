@@ -19,9 +19,15 @@ export const Route = createFileRoute("/pages/$pageId")({
   head: () => ({
     meta: [
       { title: "Edit landing page — NFC Smart Keychain" },
-      { name: "description", content: "Edit the name, image, contact details and buttons of your page." },
+      {
+        name: "description",
+        content: "Edit the name, image, contact details and buttons of your page.",
+      },
       { property: "og:title", content: "Edit landing page — NFC Smart Keychain" },
-      { property: "og:description", content: "Edit the name, image, contact details and buttons of your page." },
+      {
+        property: "og:description",
+        content: "Edit the name, image, contact details and buttons of your page.",
+      },
     ],
   }),
   component: PageEditor,
@@ -130,7 +136,10 @@ function PageEditor() {
             <Input value={draft.website} onChange={(e) => set("website", e.target.value)} />
           </Field>
           <Field label="Google Review link">
-            <Input value={draft.googleReview} onChange={(e) => set("googleReview", e.target.value)} />
+            <Input
+              value={draft.googleReview}
+              onChange={(e) => set("googleReview", e.target.value)}
+            />
           </Field>
           <Field label="Phone">
             <Input value={draft.phone} onChange={(e) => set("phone", e.target.value)} />
@@ -166,7 +175,12 @@ function PageEditor() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => set("socials", draft.socials.filter((_, j) => j !== i))}
+                onClick={() =>
+                  set(
+                    "socials",
+                    draft.socials.filter((_, j) => j !== i),
+                  )
+                }
                 aria-label="Remove social button"
               >
                 <Trash2 className="size-4" />
@@ -185,7 +199,9 @@ function PageEditor() {
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card p-5">
           <div>
             <p className="text-sm text-card-foreground">Published</p>
-            <p className="text-xs text-muted-foreground">Visitors can open this page without an account.</p>
+            <p className="text-xs text-muted-foreground">
+              Visitors can open this page without an account.
+            </p>
           </div>
           <Switch
             checked={draft.published}

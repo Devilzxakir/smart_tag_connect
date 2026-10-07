@@ -2,12 +2,12 @@
 
 One codebase, three places it runs:
 
-| Where it runs | NFC implementation | Notes |
-| --- | --- | --- |
-| Any browser without NFC | `MockNfcService` (demo mode) | Never claims a physical tag was touched |
-| Chrome on Android (https) | `WebNfcService` (Web NFC) | Already working today |
-| Android app (Capacitor) | `NativeNfcService` → `SmartNfcPlugin.java` | Needs Android Studio + a real phone to test |
-| iPhone app (Capacitor) | `NativeNfcService` → `SmartNfcPlugin.swift` (Core NFC) | Needs Xcode, an Apple Developer account and a real iPhone |
+| Where it runs             | NFC implementation                                     | Notes                                                     |
+| ------------------------- | ------------------------------------------------------ | --------------------------------------------------------- |
+| Any browser without NFC   | `MockNfcService` (demo mode)                           | Never claims a physical tag was touched                   |
+| Chrome on Android (https) | `WebNfcService` (Web NFC)                              | Already working today                                     |
+| Android app (Capacitor)   | `NativeNfcService` → `SmartNfcPlugin.java`             | Needs Android Studio + a real phone to test               |
+| iPhone app (Capacitor)    | `NativeNfcService` → `SmartNfcPlugin.swift` (Core NFC) | Needs Xcode, an Apple Developer account and a real iPhone |
 
 > Status: the native Android and iOS layers are **written but not yet tested on a
 > physical device**. Everything marked "needs testing" below must be verified in
@@ -97,7 +97,6 @@ this for you when a Team is selected.
 Do **not** run `npx cap add ios` again; it would recreate the project without
 these settings.
 
-
 ## Building
 
 The web app is server-rendered and talks to Lovable Cloud, so the native shells
@@ -123,7 +122,7 @@ NFC hardware.
 
 1. Turn NFC on (Android: Settings → Connected devices → NFC; iPhone 7+ needs no setting).
 2. Open the app, sign in, go to NFC Tools → Platform status and confirm
-   *NFC mode: Native NFC*, *NFC availability: Available*.
+   _NFC mode: Native NFC_, _NFC availability: Available_.
 3. Write NFC → Website URL → `https://google.com` → Preview → Confirm and write →
    hold the tag against the phone (Android: back centre; iPhone: top edge).
 4. The result must say written and verified. Read NFC should return the same value.

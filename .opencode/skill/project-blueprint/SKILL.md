@@ -25,12 +25,12 @@ Only ask questions if something essential is unclear (the user chose "only ask i
 
 Create a hidden folder named `.ai` at the project root and write these files. Before writing each one, read its template from `references/`.
 
-| File | Template to read first |
-|---|---|
-| `.ai/01-PRD.md` | `references/prd.md` |
-| `.ai/02-TRD.md` | `references/trd.md` |
-| `.ai/03-APP-FLOW.md` | `references/app-flow.md` |
-| `.ai/04-UI-UX-DESIGN.md` | `references/ui-ux-design.md` |
+| File                       | Template to read first         |
+| -------------------------- | ------------------------------ |
+| `.ai/01-PRD.md`            | `references/prd.md`            |
+| `.ai/02-TRD.md`            | `references/trd.md`            |
+| `.ai/03-APP-FLOW.md`       | `references/app-flow.md`       |
+| `.ai/04-UI-UX-DESIGN.md`   | `references/ui-ux-design.md`   |
 | `.ai/05-BACKEND-SCHEMA.md` | `references/backend-schema.md` |
 | `.ai/06-IMPLEMENTATION.md` | `references/implementation.md` |
 

@@ -75,7 +75,9 @@ function ProfilePage() {
               <User className="size-7" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-card-foreground">{fullName || "Your Name"}</h2>
+              <h2 className="text-lg font-semibold text-card-foreground">
+                {fullName || "Your Name"}
+              </h2>
               <p className="text-sm text-muted-foreground">{email}</p>
             </div>
           </div>
@@ -83,7 +85,7 @@ function ProfilePage() {
 
         <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
           <h3 className="text-sm font-semibold text-card-foreground">Account Information</h3>
-          
+
           <div className="space-y-2">
             <Label htmlFor="fullName">Full Name</Label>
             <Input
@@ -96,14 +98,10 @@ function ProfilePage() {
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              disabled
-              className="bg-muted"
-            />
-            <p className="text-xs text-muted-foreground">Email cannot be changed here. Contact support if needed.</p>
+            <Input id="email" type="email" value={email} disabled className="bg-muted" />
+            <p className="text-xs text-muted-foreground">
+              Email cannot be changed here. Contact support if needed.
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -124,7 +122,7 @@ function ProfilePage() {
 
         <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
           <h3 className="text-sm font-semibold text-card-foreground">Security</h3>
-          
+
           <div className="flex items-center justify-between py-2 border-b border-border">
             <div className="flex items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-lg bg-muted text-muted-foreground">
@@ -135,7 +133,11 @@ function ProfilePage() {
                 <p className="text-xs text-muted-foreground">Change your password</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => toast.info("Password change coming soon")}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => toast.info("Password change coming soon")}
+            >
               Change <Edit2 className="ml-1 size-3" />
             </Button>
           </div>
@@ -150,15 +152,21 @@ function ProfilePage() {
                 <p className="text-xs text-muted-foreground">Sign out from all devices</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => void signOut()}>Sign Out</Button>
+            <Button variant="ghost" size="sm" onClick={() => void signOut()}>
+              Sign Out
+            </Button>
           </div>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
           <h3 className="text-sm font-semibold text-card-foreground">NFC Tags</h3>
-          <p className="text-sm text-muted-foreground">Manage your NFC keychain tags from the dashboard.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage your NFC keychain tags from the dashboard.
+          </p>
           <Button variant="outline" asChild className="w-full">
-            <Link to="/tags">Manage Tags <Nfc className="ml-1 size-3" /></Link>
+            <Link to="/tags">
+              Manage Tags <Nfc className="ml-1 size-3" />
+            </Link>
           </Button>
         </div>
       </div>

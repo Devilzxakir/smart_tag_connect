@@ -176,7 +176,9 @@ function toRow(patch: Partial<Tag>): Record<string, unknown> {
   if (patch.verified !== undefined) out["verified"] = patch.verified;
   if (patch.publicCode !== undefined) out["public_code"] = patch.publicCode;
   if (patch.lastWrittenAt !== undefined)
-    out["last_written_at"] = patch.lastWrittenAt ? new Date(patch.lastWrittenAt).toISOString() : null;
+    out["last_written_at"] = patch.lastWrittenAt
+      ? new Date(patch.lastWrittenAt).toISOString()
+      : null;
   return out;
 }
 
@@ -192,9 +194,11 @@ export async function signUp(email: string, password: string, fullName?: string,
       .select("id")
       .eq("phone", phone)
       .maybeSingle();
-    
+
     if (existingPhone) {
-      throw new Error("An account with this phone number already exists. Please use a different number.");
+      throw new Error(
+        "An account with this phone number already exists. Please use a different number.",
+      );
     }
   }
 
@@ -210,7 +214,10 @@ export async function signUp(email: string, password: string, fullName?: string,
   if (error) {
     console.error("SignUp error:", error.message, error);
     // Handle specific Supabase auth errors
-    if (error.message.includes("User already registered") || error.message.includes("email already registered")) {
+    if (
+      error.message.includes("User already registered") ||
+      error.message.includes("email already registered")
+    ) {
       throw new Error("An account with this email already exists. Please log in instead.");
     }
     throw new Error(error.message);
@@ -223,9 +230,9 @@ export async function signIn(email: string, password: string) {
   for (let attempt = 1; attempt <= 3; attempt++) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (!error) return data;
-    
+
     console.error(`SignIn attempt ${attempt} error:`, error.message, error);
-    
+
     // Don't retry on these errors
     if (error.message.includes("Email not confirmed")) {
       throw new Error("Please check your email and confirm your account before logging in.");
@@ -233,10 +240,10 @@ export async function signIn(email: string, password: string) {
     if (error.message.includes("Invalid login credentials") && attempt === 3) {
       throw new Error("Invalid email or password.");
     }
-    
+
     // Wait before retry
     if (attempt < 3) {
-      await new Promise(resolve => setTimeout(resolve, 500 * attempt));
+      await new Promise((resolve) => setTimeout(resolve, 500 * attempt));
     }
   }
   throw new Error("Invalid email or password.");
@@ -263,11 +270,17 @@ export function useUser() {
   const [ready, setReady] = useState(false);
 
   const fetchProfile = async (userId: string) => {
-    const { data } = await supabase.from("profiles").select("email, full_name, phone").eq("id", userId).single();
+    const { data } = await supabase
+      .from("profiles")
+      .select("email, full_name, phone")
+      .eq("id", userId)
+      .single();
     return data;
   };
 
-  const updateUserWithProfile = async (session: { user: { id: string; email?: string | null } } | null) => {
+  const updateUserWithProfile = async (
+    session: { user: { id: string; email?: string | null } } | null,
+  ) => {
     if (!session?.user) {
       setUser(null);
       setReady(true);
@@ -275,9 +288,9 @@ export function useUser() {
     }
     const profile = await fetchProfile(session.user.id);
     const p = profile as Record<string, unknown> | null;
-    const emailVal = p && typeof p['email'] === 'string' ? p['email'] as string : null;
-    const fullNameVal = p && typeof p['full_name'] === 'string' ? p['full_name'] as string : null;
-    const phoneVal = p && typeof p['phone'] === 'string' ? p['phone'] as string : null;
+    const emailVal = p && typeof p["email"] === "string" ? (p["email"] as string) : null;
+    const fullNameVal = p && typeof p["full_name"] === "string" ? (p["full_name"] as string) : null;
+    const phoneVal = p && typeof p["phone"] === "string" ? (p["phone"] as string) : null;
     setUser({
       id: session.user.id,
       email: emailVal ?? session.user.email ?? "",
@@ -371,7 +384,10 @@ export async function createTag(name?: string, mode: TagMode = "direct"): Promis
 }
 
 export async function updateTag(id: string, patch: Partial<Tag>) {
-  const { error } = await supabase.from("tags").update(toRow(patch) as never).eq("id", id);
+  const { error } = await supabase
+    .from("tags")
+    .update(toRow(patch) as never)
+    .eq("id", id);
   if (error) throw error;
   await refreshTags();
 }
@@ -529,7 +545,10 @@ export async function updateLandingPage(id: string, patch: Partial<LandingPage>)
   if (patch.socials !== undefined) out["socials"] = patch.socials;
   if (patch.published !== undefined) out["published"] = patch.published;
 
-  const { error } = await supabase.from("landing_pages").update(out as never).eq("id", id);
+  const { error } = await supabase
+    .from("landing_pages")
+    .update(out as never)
+    .eq("id", id);
   if (error) throw error;
 }
 

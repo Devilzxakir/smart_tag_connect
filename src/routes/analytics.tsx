@@ -11,7 +11,10 @@ export const Route = createFileRoute("/analytics")({
       { title: "Tag activity — NFC Smart Keychain" },
       { name: "description", content: "Taps and scans for your NFC keychain tags over time." },
       { property: "og:title", content: "Tag activity — NFC Smart Keychain" },
-      { property: "og:description", content: "Taps and scans for your NFC keychain tags over time." },
+      {
+        property: "og:description",
+        content: "Taps and scans for your NFC keychain tags over time.",
+      },
     ],
   }),
   component: AnalyticsPage,
@@ -71,7 +74,9 @@ function AnalyticsPage() {
         </div>
 
         <section className="rounded-2xl border border-border bg-card p-5">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Most active tags</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">
+            Most active tags
+          </p>
           {loading ? (
             <p className="mt-3 text-sm text-muted-foreground">Loading…</p>
           ) : top.length === 0 ? (

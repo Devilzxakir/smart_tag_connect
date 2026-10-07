@@ -8,7 +8,9 @@ import { tagQrUrl, type Tag } from "@/lib/store";
 type Source = "content" | "link";
 
 export function TagQrCard({ tag }: { tag: Tag }) {
-  const [source, setSource] = useState<Source>(tag.mode === "dynamic" || !tag.content ? "link" : "content");
+  const [source, setSource] = useState<Source>(
+    tag.mode === "dynamic" || !tag.content ? "link" : "content",
+  );
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [nonce, setNonce] = useState(0);
@@ -75,10 +77,13 @@ export function TagQrCard({ tag }: { tag: Tag }) {
         )}
       </div>
 
-      <p className="mt-3 break-all text-center font-mono text-[11px] text-muted-foreground">{value}</p>
+      <p className="mt-3 break-all text-center font-mono text-[11px] text-muted-foreground">
+        {value}
+      </p>
       {source === "link" && (
         <p className="mt-2 text-center text-[11px] text-muted-foreground">
-          This link never changes, so later you can point it somewhere new without rewriting the tag.
+          This link never changes, so later you can point it somewhere new without rewriting the
+          tag.
         </p>
       )}
 

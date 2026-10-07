@@ -15,7 +15,8 @@ export class MockNfcService implements NfcService {
   async isAvailable(): Promise<NfcAvailability> {
     return {
       available: false,
-      reason: "No real NFC access here, so the app runs in demo mode. Nothing touches a physical tag.",
+      reason:
+        "No real NFC access here, so the app runs in demo mode. Nothing touches a physical tag.",
     };
   }
 

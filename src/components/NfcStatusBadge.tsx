@@ -32,7 +32,9 @@ export function NfcStatusBadge({ support }: { support: NfcSupport | null }) {
           : "inline-flex items-center gap-1.5 rounded-full bg-success/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-success"
       }
     >
-      <span className={demo ? "size-1.5 rounded-full bg-warning" : "size-1.5 rounded-full bg-success"} />
+      <span
+        className={demo ? "size-1.5 rounded-full bg-warning" : "size-1.5 rounded-full bg-success"}
+      />
       {demo ? "Demo mode — no real NFC" : "Real NFC — this device can write tags"}
     </span>
   );
@@ -56,14 +58,19 @@ export function NfcModeCard({ status }: { status: NfcStatus | null }) {
         ) : (
           <Nfc className="size-4 shrink-0 text-success" />
         )}
-        <p className={demo ? "text-sm font-semibold text-warning" : "text-sm font-semibold text-success"}>
+        <p
+          className={
+            demo ? "text-sm font-semibold text-warning" : "text-sm font-semibold text-success"
+          }
+        >
           {demo ? "Demo mode" : "Real NFC available"}
         </p>
       </div>
       <p className="mt-2 text-xs text-muted-foreground">{status.reason}</p>
       {demo && (
         <p className="mt-2 text-xs text-muted-foreground">
-          Nothing in demo mode touches a physical tag, and demo results are never saved as real writes.
+          Nothing in demo mode touches a physical tag, and demo results are never saved as real
+          writes.
         </p>
       )}
     </div>

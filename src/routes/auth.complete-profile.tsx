@@ -97,9 +97,7 @@ function CompleteProfilePage() {
             <User className="size-8" />
           </div>
           <h1 className="text-2xl font-semibold text-foreground">Welcome!</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Complete your profile to get started
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">Complete your profile to get started</p>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5 space-y-4">

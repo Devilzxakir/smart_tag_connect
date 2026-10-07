@@ -64,9 +64,16 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { needsConfirmation } = await signUp(email, password, fullName.trim(), phone.trim() || undefined);
+        const { needsConfirmation } = await signUp(
+          email,
+          password,
+          fullName.trim(),
+          phone.trim() || undefined,
+        );
         if (needsConfirmation) {
-          toast.success("Account created! Please check your email to confirm your account, then log in.");
+          toast.success(
+            "Account created! Please check your email to confirm your account, then log in.",
+          );
           setMode("login");
           return;
         }
@@ -106,8 +113,12 @@ function AuthPage() {
         <div className="mb-6 inline-flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-glow">
           <Nfc className="size-7" />
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">NFC Smart Keychain</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Tap, write and read your smart tags. Prototype build.</p>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+          NFC Smart Keychain
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Tap, write and read your smart tags. Prototype build.
+        </p>
       </div>
 
       <div className="mb-6 grid grid-cols-2 gap-1 rounded-xl bg-muted p-1">

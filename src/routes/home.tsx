@@ -8,9 +8,15 @@ export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
       { title: "Home — NFC Smart Keychain" },
-      { name: "description", content: "Your NFC keychain dashboard: tools, saved tags and quick actions." },
+      {
+        name: "description",
+        content: "Your NFC keychain dashboard: tools, saved tags and quick actions.",
+      },
       { property: "og:title", content: "Home — NFC Smart Keychain" },
-      { property: "og:description", content: "Your NFC keychain dashboard: tools, saved tags and quick actions." },
+      {
+        property: "og:description",
+        content: "Your NFC keychain dashboard: tools, saved tags and quick actions.",
+      },
     ],
   }),
   component: HomePage,

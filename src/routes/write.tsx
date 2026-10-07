@@ -50,9 +50,15 @@ export const Route = createFileRoute("/write")({
   head: () => ({
     meta: [
       { title: "Write NFC — NFC Smart Keychain" },
-      { name: "description", content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag." },
+      {
+        name: "description",
+        content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag.",
+      },
       { property: "og:title", content: "Write NFC — NFC Smart Keychain" },
-      { property: "og:description", content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag." },
+      {
+        property: "og:description",
+        content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag.",
+      },
     ],
   }),
   component: WritePage,
@@ -219,7 +225,9 @@ function WritePage() {
       <div className="space-y-5">
         <NfcStatusBadge support={support} />
 
-        {(step === "preview" || step === "type" || step === "mode") && <NfcModeCard status={status} />}
+        {(step === "preview" || step === "type" || step === "mode") && (
+          <NfcModeCard status={status} />
+        )}
 
         {step === "mode" && (
           <div className="space-y-3">
@@ -247,12 +255,19 @@ function WritePage() {
               className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-4 text-left"
             >
               <span className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                {creating ? <Loader2 className="size-5 animate-spin" /> : <Link2 className="size-5" />}
+                {creating ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  <Link2 className="size-5" />
+                )}
               </span>
               <span>
-                <span className="block text-sm font-semibold text-card-foreground">Dynamic NFC</span>
+                <span className="block text-sm font-semibold text-card-foreground">
+                  Dynamic NFC
+                </span>
                 <span className="block text-xs text-muted-foreground">
-                  A permanent link goes on the tag. Change where it opens any time, without rewriting.
+                  A permanent link goes on the tag. Change where it opens any time, without
+                  rewriting.
                 </span>
               </span>
             </button>
@@ -331,32 +346,65 @@ function WritePage() {
 
                 {payload.type === "url" && (
                   <Field label="Website address" id="url">
-                    <Input id="url" inputMode="url" placeholder="example.com/page" value={payload.url} onChange={(e) => set({ url: e.target.value })} />
+                    <Input
+                      id="url"
+                      inputMode="url"
+                      placeholder="example.com/page"
+                      value={payload.url}
+                      onChange={(e) => set({ url: e.target.value })}
+                    />
                   </Field>
                 )}
 
                 {payload.type === "text" && (
                   <Field label="Text" id="text">
-                    <Textarea id="text" rows={4} placeholder="Anything you want to show" value={payload.text} onChange={(e) => set({ text: e.target.value })} />
+                    <Textarea
+                      id="text"
+                      rows={4}
+                      placeholder="Anything you want to show"
+                      value={payload.text}
+                      onChange={(e) => set({ text: e.target.value })}
+                    />
                   </Field>
                 )}
 
                 {payload.type === "tel" && (
                   <Field label="Phone number" id="tel">
-                    <Input id="tel" inputMode="tel" placeholder="+91 98765 43210" value={payload.phone} onChange={(e) => set({ phone: e.target.value })} />
+                    <Input
+                      id="tel"
+                      inputMode="tel"
+                      placeholder="+91 98765 43210"
+                      value={payload.phone}
+                      onChange={(e) => set({ phone: e.target.value })}
+                    />
                   </Field>
                 )}
 
                 {payload.type === "email" && (
                   <>
                     <Field label="Email address" id="email">
-                      <Input id="email" inputMode="email" placeholder="you@example.com" value={payload.email} onChange={(e) => set({ email: e.target.value })} />
+                      <Input
+                        id="email"
+                        inputMode="email"
+                        placeholder="you@example.com"
+                        value={payload.email}
+                        onChange={(e) => set({ email: e.target.value })}
+                      />
                     </Field>
                     <Field label="Subject (optional)" id="subject">
-                      <Input id="subject" value={payload.subject ?? ""} onChange={(e) => set({ subject: e.target.value })} />
+                      <Input
+                        id="subject"
+                        value={payload.subject ?? ""}
+                        onChange={(e) => set({ subject: e.target.value })}
+                      />
                     </Field>
                     <Field label="Message (optional)" id="body">
-                      <Textarea id="body" rows={3} value={payload.body ?? ""} onChange={(e) => set({ body: e.target.value })} />
+                      <Textarea
+                        id="body"
+                        rows={3}
+                        value={payload.body ?? ""}
+                        onChange={(e) => set({ body: e.target.value })}
+                      />
                     </Field>
                   </>
                 )}
@@ -364,16 +412,34 @@ function WritePage() {
                 {payload.type === "vcard" && (
                   <>
                     <Field label="Full name" id="cname">
-                      <Input id="cname" value={payload.name} onChange={(e) => set({ name: e.target.value })} />
+                      <Input
+                        id="cname"
+                        value={payload.name}
+                        onChange={(e) => set({ name: e.target.value })}
+                      />
                     </Field>
                     <Field label="Company (optional)" id="org">
-                      <Input id="org" value={payload.org ?? ""} onChange={(e) => set({ org: e.target.value })} />
+                      <Input
+                        id="org"
+                        value={payload.org ?? ""}
+                        onChange={(e) => set({ org: e.target.value })}
+                      />
                     </Field>
                     <Field label="Phone (optional)" id="cphone">
-                      <Input id="cphone" inputMode="tel" value={payload.phone ?? ""} onChange={(e) => set({ phone: e.target.value })} />
+                      <Input
+                        id="cphone"
+                        inputMode="tel"
+                        value={payload.phone ?? ""}
+                        onChange={(e) => set({ phone: e.target.value })}
+                      />
                     </Field>
                     <Field label="Email (optional)" id="cemail">
-                      <Input id="cemail" inputMode="email" value={payload.email ?? ""} onChange={(e) => set({ email: e.target.value })} />
+                      <Input
+                        id="cemail"
+                        inputMode="email"
+                        value={payload.email ?? ""}
+                        onChange={(e) => set({ email: e.target.value })}
+                      />
                     </Field>
                   </>
                 )}
@@ -381,7 +447,11 @@ function WritePage() {
                 {payload.type === "wifi" && (
                   <>
                     <Field label="Network name (SSID)" id="ssid">
-                      <Input id="ssid" value={payload.ssid} onChange={(e) => set({ ssid: e.target.value })} />
+                      <Input
+                        id="ssid"
+                        value={payload.ssid}
+                        onChange={(e) => set({ ssid: e.target.value })}
+                      />
                     </Field>
                     <Field label="Security" id="sec">
                       <div className="grid grid-cols-3 gap-2">
@@ -403,7 +473,11 @@ function WritePage() {
                     </Field>
                     {payload.security !== "nopass" && (
                       <Field label="Password" id="wpass">
-                        <Input id="wpass" value={payload.password ?? ""} onChange={(e) => set({ password: e.target.value })} />
+                        <Input
+                          id="wpass"
+                          value={payload.password ?? ""}
+                          onChange={(e) => set({ password: e.target.value })}
+                        />
                       </Field>
                     )}
                   </>
@@ -412,7 +486,12 @@ function WritePage() {
             )}
 
             <Field label="Tag name" id="tagname">
-              <Input id="tagname" placeholder={existing?.name ?? "Tag 001"} value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                id="tagname"
+                placeholder={existing?.name ?? "Tag 001"}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </Field>
 
             {touched && error && <p className="text-sm text-destructive">{error}</p>}
@@ -421,7 +500,12 @@ function WritePage() {
               Preview
             </Button>
             {!isDynamic && (
-              <Button type="button" variant="ghost" className="w-full" onClick={() => setStep("type")}>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => setStep("type")}
+              >
                 Choose a different type
               </Button>
             )}
@@ -438,8 +522,8 @@ function WritePage() {
                 {encoded}
               </pre>
               <p className="mt-3 text-xs text-muted-foreground">
-                Type: {isDynamic ? "Dynamic link" : CONTENT_LABELS[payload.type]} · {size.bytes} of ~
-                {size.capacity} bytes
+                Type: {isDynamic ? "Dynamic link" : CONTENT_LABELS[payload.type]} · {size.bytes} of
+                ~{size.capacity} bytes
               </p>
               {isDynamic && (
                 <div className="mt-4 border-t border-border pt-3">

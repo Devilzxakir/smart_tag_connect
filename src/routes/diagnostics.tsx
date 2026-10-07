@@ -9,9 +9,15 @@ export const Route = createFileRoute("/diagnostics")({
   head: () => ({
     meta: [
       { title: "Platform status — NFC Smart Keychain" },
-      { name: "description", content: "Developer view of the platform, NFC mode and NFC availability." },
+      {
+        name: "description",
+        content: "Developer view of the platform, NFC mode and NFC availability.",
+      },
       { property: "og:title", content: "Platform status — NFC Smart Keychain" },
-      { property: "og:description", content: "Developer view of the platform, NFC mode and NFC availability." },
+      {
+        property: "og:description",
+        content: "Developer view of the platform, NFC mode and NFC availability.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -44,7 +50,10 @@ function DiagnosticsPage() {
             <dl className="space-y-3 text-sm">
               <Row label="Platform" value={PLATFORM_LABELS[info.platform]} />
               <Row label="NFC mode" value={ENGINE_LABELS[info.engine]} />
-              <Row label="NFC availability" value={info.available ? "Available" : "Not available"} />
+              <Row
+                label="NFC availability"
+                value={info.available ? "Available" : "Not available"}
+              />
               <Row label="Implementation" value={info.serviceName} />
               <Row label="Secure page (https)" value={secureLabel()} />
             </dl>
