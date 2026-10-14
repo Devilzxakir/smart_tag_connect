@@ -75,10 +75,9 @@ function CompleteProfilePage() {
       if (updateError) throw updateError;
 
       // Create/update profile in public.profiles
-      await updateProfileFn(user.id, {
-        fullName: fullName.trim(),
-        phone: user.phone,
-      });
+      const profilePatch: { fullName: string; phone?: string } = { fullName: fullName.trim() };
+      if (user.phone) profilePatch.phone = user.phone;
+      await updateProfileFn(user.id, profilePatch);
 
       toast.success("Profile completed successfully!");
       window.location.href = "/home";

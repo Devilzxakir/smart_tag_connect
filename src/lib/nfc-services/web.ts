@@ -4,7 +4,7 @@ interface NDEFReaderEventTarget extends EventTarget {
   onreading: ((event: NDEFReadingEvent) => void) | null;
   onreadingerror: ((event: Event) => void) | null;
   scan: (options: { signal: AbortSignal }) => Promise<void>;
-  write: (message: NDEFMessage, options?: { signal: AbortSignal }) => Promise<void>;
+  write: (message: NDEFMessage, options?: { signal?: AbortSignal; overwrite?: boolean }) => Promise<void>;
 }
 
 interface NDEFReadingEvent extends Event {
@@ -19,7 +19,7 @@ interface NDEFRecord {
   recordType: string;
   mediaType?: string;
   encoding?: string;
-  data?: ArrayBuffer | ArrayBufferView;
+  data?: ArrayBuffer | ArrayBufferView | string;
 }
 
 interface NDEFReaderConstructor {
@@ -66,19 +66,24 @@ export class WebNfcService implements NfcService {
 
   async write(records: NfcRecord[], cancel?: AbortSignal): Promise<NfcReadResult> {
     const message = {
-      records: records.map((r) =>
-        r.recordType === "empty"
-          ? { recordType: "empty" }
-          : r.recordType === "mime"
-            ? {
-                recordType: "mime",
-                mediaType: r.mediaType ?? "text/plain",
-                data: this.encodeString(r.value),
-              }
-            : { recordType: r.recordType, data: this.encodeString(r.value) },
-      ),
+      records: records.map((r) => {
+        if (r.recordType === "empty") {
+          return { recordType: "empty" };
+        }
+        if (r.recordType === "mime") {
+          return {
+            recordType: "mime",
+            mediaType: r.mediaType ?? "text/plain",
+            data: this.encodeString(r.value),
+          };
+        }
+        if (r.recordType === "url" || r.recordType === "text") {
+          return { recordType: r.recordType, data: r.value };
+        }
+        return { recordType: r.recordType, data: this.encodeString(r.value) };
+      }),
     };
-    await this.reader().write(message, cancel ? { signal: cancel } : undefined);
+    await this.reader().write(message, cancel ? { signal: cancel, overwrite: true } : { overwrite: true });
     return { records: [] };
   }
 
@@ -119,7 +124,12 @@ export class WebNfcService implements NfcService {
         for (const record of event.message.records) {
           if (!record.data) continue;
           try {
-            const value = new TextDecoder(record.encoding || "utf-8").decode(record.data);
+            let value: string;
+            if (typeof record.data === "string") {
+              value = record.data;
+            } else {
+              value = new TextDecoder(record.encoding || "utf-8").decode(record.data);
+            }
             if (!value.trim()) continue;
             records.push({
               recordType: (record.recordType as NfcRecord["recordType"]) ?? "text",
