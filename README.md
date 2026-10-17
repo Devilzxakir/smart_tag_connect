@@ -30,7 +30,7 @@ The same codebase ships as:
 
 - React 19 + TypeScript
 - TanStack Start / TanStack Router (SSR)
-- Vite 8
+- Vite 8 + Nitro (production server build for Vercel / Node)
 - Tailwind CSS v4 + shadcn/ui (Radix UI) + lucide-react
 - Supabase (auth, Postgres, row-level security)
 - Drizzle ORM / drizzle-kit for the SQL migration tooling
@@ -78,9 +78,9 @@ Other scripts that exist in `package.json`:
 | Script | Purpose |
 | --- | --- |
 | `npm run dev` | start the dev server |
-| `npm run build` | production build (`dist/client` + `dist/server`) |
+| `npm run build` | production build via Nitro (`.output/`; `.vercel/output/` on Vercel) |
 | `npm run build:dev` | production build in development mode |
-| `npm run preview` | preview the built client |
+| `npm run preview` | preview the production build |
 | `npm run lint` | ESLint over the repo |
 | `npm run format` | Prettier write |
 
@@ -141,20 +141,23 @@ tables use row-level security scoped to the authenticated user.
 
 ## Deployment
 
+The production server build is produced by [Nitro](https://nitro.build), wired
+up in `vite.config.ts`:
+
 ```sh
 npm run build
 ```
 
-The build emits:
+- **Vercel** - zero configuration. Vercel detects TanStack Start + Nitro, the
+  build emits the Build Output API layout (static assets plus the `__server`
+  function) and all routes are served from it.
+- **Other hosts** - the same command emits `.output/` (Node preset by default);
+  set `NITRO_PRESET` for other deploy targets.
 
-- `dist/client/` - static assets,
-- `dist/server/` - a server entry that exports a `fetch` handler
-  (WinterCG-compatible) with SSR, used by the hosting platform.
-
-Host the server build on any compatible runtime, set the environment variables
-listed above (including `SUPABASE_SERVICE_ROLE_KEY`), and update
-`server.url` in `capacitor.config.ts` if the mobile shells should point at the
-new address.
+Set the environment variables listed in Installation in the hosting platform's
+project settings (on Vercel: Project -> Settings -> Environment Variables),
+including `SUPABASE_SERVICE_ROLE_KEY`. Then update `server.url` in
+`capacitor.config.ts` if the mobile shells should point at the new address.
 
 ## Project structure
 

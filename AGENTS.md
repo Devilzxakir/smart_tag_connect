@@ -7,7 +7,7 @@ Project layout and architecture are documented in `README.md` and `docs/NATIVE-A
 - `npm install` then `npm run dev` - dev server on http://localhost:5173
 - `npx tsc --noEmit` - type check
 - `npm run lint` - ESLint (must stay at 0 errors)
-- `npm run build` - production build (`dist/client` + `dist/server`)
+- `npm run build` - production build via Nitro (`.output/`; `.vercel/output/` on Vercel)
 
 ## Working agreements
 
