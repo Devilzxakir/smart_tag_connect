@@ -8,12 +8,12 @@ import { resolveNfcStatus, type NfcDiagnostics } from "@/lib/nfc";
 export const Route = createFileRoute("/diagnostics")({
   head: () => ({
     meta: [
-      { title: "Platform status — NFC Smart Keychain" },
+      { title: "Platform status — Smart Tag Connect" },
       {
         name: "description",
         content: "Developer view of the platform, NFC mode and NFC availability.",
       },
-      { property: "og:title", content: "Platform status — NFC Smart Keychain" },
+      { property: "og:title", content: "Platform status — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Developer view of the platform, NFC mode and NFC availability.",

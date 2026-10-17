@@ -33,13 +33,13 @@ export const Route = createFileRoute("/write-destination")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Write Destination URL to NFC — NFC Smart Keychain" },
+      { title: "Write Destination URL to NFC — Smart Tag Connect" },
       {
         name: "description",
         content:
           "Write a destination URL directly to an NFC tag. The URL will be stored on the tag itself.",
       },
-      { property: "og:title", content: "Write Destination URL to NFC — NFC Smart Keychain" },
+      { property: "og:title", content: "Write Destination URL to NFC — Smart Tag Connect" },
       {
         property: "og:description",
         content:

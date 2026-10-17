@@ -8,9 +8,9 @@ import { RANGE_LABELS, useEvents, useTags, type RangeKey } from "@/lib/store";
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
-      { title: "Tag activity — NFC Smart Keychain" },
+      { title: "Tag activity — Smart Tag Connect" },
       { name: "description", content: "Taps and scans for your NFC keychain tags over time." },
-      { property: "og:title", content: "Tag activity — NFC Smart Keychain" },
+      { property: "og:title", content: "Tag activity — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Taps and scans for your NFC keychain tags over time.",

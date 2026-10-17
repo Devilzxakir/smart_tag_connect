@@ -49,12 +49,12 @@ export const Route = createFileRoute("/write")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Write NFC — NFC Smart Keychain" },
+      { title: "Write NFC — Smart Tag Connect" },
       {
         name: "description",
         content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag.",
       },
-      { property: "og:title", content: "Write NFC — NFC Smart Keychain" },
+      { property: "og:title", content: "Write NFC — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Write a link, text, phone, email, contact card or Wi-Fi to an NFC tag.",

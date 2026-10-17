@@ -7,12 +7,12 @@ import { useTags, useUser } from "@/lib/store";
 export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Home — NFC Smart Keychain" },
+      { title: "Home — Smart Tag Connect" },
       {
         name: "description",
         content: "Your NFC keychain dashboard: tools, saved tags and quick actions.",
       },
-      { property: "og:title", content: "Home — NFC Smart Keychain" },
+      { property: "og:title", content: "Home — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Your NFC keychain dashboard: tools, saved tags and quick actions.",

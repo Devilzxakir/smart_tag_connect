@@ -11,9 +11,9 @@ import { useTags } from "@/lib/store";
 export const Route = createFileRoute("/read")({
   head: () => ({
     meta: [
-      { title: "Read NFC — NFC Smart Keychain" },
+      { title: "Read NFC — Smart Tag Connect" },
       { name: "description", content: "Scan an NFC keychain tag and see what is stored on it." },
-      { property: "og:title", content: "Read NFC — NFC Smart Keychain" },
+      { property: "og:title", content: "Read NFC — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Scan an NFC keychain tag and see what is stored on it.",

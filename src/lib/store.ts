@@ -252,6 +252,7 @@ export async function signIn(email: string, password: string) {
 export async function signOut() {
   await supabase.auth.signOut();
   cache = null;
+  cacheUserId = null;
   notify();
 }
 
@@ -322,42 +323,107 @@ export function useUser() {
 /* ---------------- tags ---------------- */
 
 let cache: Tag[] | null = null;
+let cacheUserId: string | null = null;
+let inFlight: Promise<Tag[]> | null = null;
 const subscribers = new Set<() => void>();
 
 function notify() {
   subscribers.forEach((fn) => fn());
 }
 
-export async function refreshTags(): Promise<Tag[]> {
-  const { data, error } = await supabase
-    .from("tags")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  cache = ((data ?? []) as Row[]).map(mapRow);
-  notify();
-  return cache;
+async function getAuthUserId(): Promise<string | null> {
+  const { data } = await supabase.auth.getSession();
+  return data.session?.user?.id ?? null;
 }
+
+export async function refreshTags(): Promise<Tag[]> {
+  if (inFlight) return inFlight;
+  inFlight = (async () => {
+    try {
+      const uid = await getAuthUserId();
+      if (!uid) {
+        // Signed out: there is nothing this user is allowed to see.
+        cache = null;
+        cacheUserId = null;
+        notify();
+        return [];
+      }
+      const { data, error } = await supabase
+        .from("tags")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      if ((await getAuthUserId()) !== uid) {
+        // The signed-in user changed while the request was in flight. Discard
+        // the response so one account can never see another account's cache.
+        cache = null;
+        cacheUserId = null;
+        notify();
+        return [];
+      }
+      cache = ((data ?? []) as Row[]).map(mapRow);
+      cacheUserId = uid;
+      notify();
+      return cache;
+    } finally {
+      inFlight = null;
+    }
+  })();
+  return inFlight;
+}
+
+// Keep the tag cache tied to the signed-in user. Without this, a fetch that
+// ran before the session was restored (RLS then answers with an empty list)
+// could leave the UI stuck on "No tags yet" even though the user has tags.
+let authWired = false;
+function wireAuthLifecycle() {
+  if (authWired || typeof window === "undefined") return;
+  authWired = true;
+  supabase.auth.onAuthStateChange((_event, session) => {
+    const uid = session?.user?.id ?? null;
+    if (uid === cacheUserId && cache !== null) return;
+    cache = null;
+    cacheUserId = uid;
+    notify();
+    if (uid) setTimeout(() => void refreshTags().catch(() => undefined), 0);
+  });
+}
+wireAuthLifecycle();
 
 export function useTags() {
   const [tags, setTags] = useState<Tag[]>(cache ?? []);
   const [loading, setLoading] = useState(cache === null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    let active = true;
     const sync = () => {
+      if (!active) return;
       setTags(cache ?? []);
       setLoading(false);
     };
     subscribers.add(sync);
-    void refreshTags()
-      .catch(() => undefined)
+    refreshTags()
+      .catch((err: unknown) => {
+        if (!active) return;
+        setError(err instanceof Error ? err : new Error(String(err)));
+      })
       .finally(sync);
     return () => {
+      active = false;
       subscribers.delete(sync);
     };
   }, []);
 
-  return { tags, loading };
+  const reload = useCallback(() => {
+    setError(null);
+    setLoading(cache === null);
+    void refreshTags()
+      .catch((err: unknown) => setError(err instanceof Error ? err : new Error(String(err))))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { tags, loading, error, reload };
 }
 
 export function useTag(id: string) {

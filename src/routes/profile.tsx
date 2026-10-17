@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — NFC Smart Keychain" },
+      { title: "Profile — Smart Tag Connect" },
       { name: "description", content: "Manage your account settings and profile information." },
     ],
   }),

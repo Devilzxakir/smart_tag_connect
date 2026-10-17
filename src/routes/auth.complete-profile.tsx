@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/auth/complete-profile")({
   head: () => ({
     meta: [
-      { title: "Complete Profile — NFC Smart Keychain" },
+      { title: "Complete Profile — Smart Tag Connect" },
       { name: "description", content: "Complete your profile setup." },
     ],
   }),

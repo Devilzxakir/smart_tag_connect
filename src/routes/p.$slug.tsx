@@ -7,12 +7,12 @@ import { getLandingPage, type PublicLandingPage } from "@/lib/pages.functions";
 export const Route = createFileRoute("/p/$slug")({
   head: () => ({
     meta: [
-      { title: "Landing page — NFC Smart Keychain" },
+      { title: "Landing page — Smart Tag Connect" },
       {
         name: "description",
         content: "A simple contact and links page shared from an NFC keychain.",
       },
-      { property: "og:title", content: "Landing page — NFC Smart Keychain" },
+      { property: "og:title", content: "Landing page — Smart Tag Connect" },
       {
         property: "og:description",
         content: "A simple contact and links page shared from an NFC keychain.",

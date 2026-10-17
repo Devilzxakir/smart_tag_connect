@@ -12,12 +12,12 @@ import { formatNumber, setTagEnabled, useTags } from "@/lib/store";
 export const Route = createFileRoute("/tags/")({
   head: () => ({
     meta: [
-      { title: "My Tags — NFC Smart Keychain" },
+      { title: "My Tags — Smart Tag Connect" },
       {
         name: "description",
         content: "Search, open and manage every NFC keychain tag you've saved.",
       },
-      { property: "og:title", content: "My Tags — NFC Smart Keychain" },
+      { property: "og:title", content: "My Tags — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Search, open and manage every NFC keychain tag you've saved.",
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/tags/")({
 });
 
 function TagsPage() {
-  const { tags, loading } = useTags();
+  const { tags, loading, error, reload } = useTags();
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -70,7 +70,16 @@ function TagsPage() {
           <p className="text-sm text-muted-foreground">Loading your tags…</p>
         )}
 
-        {!loading && tags.length === 0 && (
+        {!loading && error && tags.length === 0 && (
+          <div className="space-y-3 rounded-2xl border border-dashed border-destructive/40 p-8 text-center">
+            <p className="text-sm text-destructive">Couldn’t load your tags.</p>
+            <Button variant="outline" size="sm" onClick={reload}>
+              Try again
+            </Button>
+          </div>
+        )}
+
+        {!loading && !error && tags.length === 0 && (
           <div className="rounded-2xl border border-dashed border-border p-8 text-center">
             <p className="text-sm text-muted-foreground">No tags yet. Add one to get started.</p>
           </div>

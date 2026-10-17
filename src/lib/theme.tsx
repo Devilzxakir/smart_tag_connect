@@ -21,22 +21,25 @@ const FONTS: Record<Font, string> = {
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      return (
-        (localStorage.getItem("theme") as Theme) ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-      );
-    }
-    return "light";
-  });
+  // Always start from the server-safe defaults so the first client render
+  // matches the SSR HTML. Reading localStorage during render would make the
+  // client's first render differ from the server's and break hydration.
+  // The persisted values are applied after mount instead.
+  const [theme, setThemeState] = useState<Theme>("light");
+  const [font, setFontState] = useState<Font>("inter");
 
-  const [font, setFontState] = useState<Font>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("font") as Font) || "inter";
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    const storedFont = localStorage.getItem("font");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setThemeState(storedTheme);
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setThemeState("dark");
     }
-    return "inter";
-  });
+    if (storedFont && storedFont in FONTS) {
+      setFontState(storedFont as Font);
+    }
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;

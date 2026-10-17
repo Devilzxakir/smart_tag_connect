@@ -31,7 +31,6 @@ export function TagQrCard({ tag }: { tag: Tag }) {
 
   useEffect(() => {
     void build();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [build, nonce]);
 
   return (

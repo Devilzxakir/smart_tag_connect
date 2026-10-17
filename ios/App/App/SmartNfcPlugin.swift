@@ -3,7 +3,7 @@ import Capacitor
 import CoreNFC
 
 /**
- Native iOS NDEF access for the NFC Smart Keychain app, built on Core NFC.
+ Native iOS NDEF access for the Smart Tag Connect app, built on Core NFC.
 
  Operations are honest: a call only resolves when Core NFC reports success.
  Nothing here simulates a tag.

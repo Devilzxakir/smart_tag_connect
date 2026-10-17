@@ -4,7 +4,10 @@ interface NDEFReaderEventTarget extends EventTarget {
   onreading: ((event: NDEFReadingEvent) => void) | null;
   onreadingerror: ((event: Event) => void) | null;
   scan: (options: { signal: AbortSignal }) => Promise<void>;
-  write: (message: NDEFMessage, options?: { signal?: AbortSignal; overwrite?: boolean }) => Promise<void>;
+  write: (
+    message: NDEFMessage,
+    options?: { signal?: AbortSignal; overwrite?: boolean },
+  ) => Promise<void>;
 }
 
 interface NDEFReadingEvent extends Event {
@@ -83,7 +86,10 @@ export class WebNfcService implements NfcService {
         return { recordType: r.recordType, data: this.encodeString(r.value) };
       }),
     };
-    await this.reader().write(message, cancel ? { signal: cancel, overwrite: true } : { overwrite: true });
+    await this.reader().write(
+      message,
+      cancel ? { signal: cancel, overwrite: true } : { overwrite: true },
+    );
     return { records: [] };
   }
 

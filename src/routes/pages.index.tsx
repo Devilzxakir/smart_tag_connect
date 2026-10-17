@@ -11,9 +11,9 @@ import { createLandingPage, useLandingPages } from "@/lib/store";
 export const Route = createFileRoute("/pages/")({
   head: () => ({
     meta: [
-      { title: "Landing pages — NFC Smart Keychain" },
+      { title: "Landing pages — Smart Tag Connect" },
       { name: "description", content: "Build simple mobile pages your tags can open." },
-      { property: "og:title", content: "Landing pages — NFC Smart Keychain" },
+      { property: "og:title", content: "Landing pages — Smart Tag Connect" },
       { property: "og:description", content: "Build simple mobile pages your tags can open." },
     ],
   }),

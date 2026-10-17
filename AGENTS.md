@@ -1,12 +1,24 @@
-<!-- LOVABLE:BEGIN -->
+# Smart Tag Connect - agent notes
 
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
+Project layout and architecture are documented in `README.md` and `docs/NATIVE-APPS.md`.
 
-<!-- LOVABLE:END -->
+## Commands
+
+- `npm install` then `npm run dev` - dev server on http://localhost:5173
+- `npx tsc --noEmit` - type check
+- `npm run lint` - ESLint (must stay at 0 errors)
+- `npm run build` - production build (`dist/client` + `dist/server`)
+
+## Working agreements
+
+- Never print, commit or expose `.env` values or any Supabase service-role key.
+  Server-only code lives in `*.server.ts`; do not import it from routes or
+  `*.functions.ts`.
+- NFC behavior exists in three backends (`src/lib/nfc-services/`: web, native,
+  mock). A passing build or browser test does not prove NFC hardware works;
+  real tag testing needs a physical device (see `docs/NATIVE-APPS.md`).
+- Database changes belong in `supabase/migrations/` and, when applicable,
+  `drizzle/migrations/` - never edit production schema ad hoc.
+- The native app id (`app.lovable.nfckeychain`) is shared by the Gradle config,
+  Java package, `strings.xml`, the Xcode project and OAuth redirect allow-lists.
+  Do not rename it piecemeal.

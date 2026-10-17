@@ -20,7 +20,7 @@ export type PublicLandingPage =
 
 /** Public landing page used by /p/<slug>. Visitors never need an account. */
 export const getLandingPage = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => z.object({ slug: z.string().min(2).max(64) }).parse(data))
+  .validator((data: unknown) => z.object({ slug: z.string().min(2).max(64) }).parse(data))
   .handler(async ({ data }): Promise<PublicLandingPage> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row, error } = await supabaseAdmin

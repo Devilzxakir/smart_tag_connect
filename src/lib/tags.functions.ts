@@ -48,7 +48,7 @@ function requestCountry(): string | null {
  * and only returns the few fields a visitor may see.
  */
 export const resolveTag = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         code: z.string().min(4).max(32),
@@ -98,7 +98,7 @@ export const resolveTag = createServerFn({ method: "POST" })
 
 /** A finder's message from the lost-mode page. No login required. */
 export const submitLostReport = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         code: z.string().min(4).max(32),
@@ -143,7 +143,7 @@ export const submitLostReport = createServerFn({ method: "POST" })
 /** Server-validated destination change for a dynamic tag (owner only). */
 export const saveDestination = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         tagId: z.string().uuid(),

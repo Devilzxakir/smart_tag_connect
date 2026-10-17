@@ -1,4 +1,4 @@
-# NFC Smart Keychain — web, Android and iOS
+# Smart Tag Connect — web, Android and iOS
 
 One codebase, three places it runs:
 
@@ -99,7 +99,7 @@ these settings.
 
 ## Building
 
-The web app is server-rendered and talks to Lovable Cloud, so the native shells
+The web app is server-rendered and talks to Supabase, so the native shells
 load the hosted site over https instead of bundling a static copy. That URL is
 `server.url` in `capacitor.config.ts` — update it if you publish to a different
 address or add a custom domain, then run `npx cap sync`.
@@ -132,7 +132,7 @@ NFC hardware.
 
 ## Security notes
 
-- No secrets are stored in the app. It uses the same public Lovable Cloud
+- No secrets are stored in the app. It uses the same public Supabase
   publishable key the web app uses, and all data access goes through
   row-level security scoped to the signed-in user.
 - The native shells reuse the existing web login, so authentication and

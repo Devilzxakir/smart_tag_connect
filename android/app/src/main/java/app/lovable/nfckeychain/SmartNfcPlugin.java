@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Native Android NDEF access for the NFC Smart Keychain app.
+ * Native Android NDEF access for the Smart Tag Connect app.
  *
  * Operations are honest: a call only resolves when the hardware reports success.
  * Nothing here simulates a tag.

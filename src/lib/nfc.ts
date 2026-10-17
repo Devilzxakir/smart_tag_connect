@@ -112,19 +112,34 @@ export function friendlyNfcError(e: unknown): string {
     case "NotSupportedError":
       return "This device or browser can't access NFC hardware.";
     case "NotReadableError":
-      if (lowerMessage.includes("capacity") || lowerMessage.includes("size") || lowerMessage.includes("space") || lowerMessage.includes("too large")) {
+      if (
+        lowerMessage.includes("capacity") ||
+        lowerMessage.includes("size") ||
+        lowerMessage.includes("space") ||
+        lowerMessage.includes("too large")
+      ) {
         return "The destination URL is too large for this NFC card. Use a shorter URL or a larger tag.";
       }
       return "NFC is switched off, or another app is using it. Turn NFC on in phone settings and try again.";
     case "NetworkError":
-      if (lowerMessage.includes("capacity") || lowerMessage.includes("size") || lowerMessage.includes("space") || lowerMessage.includes("too large")) {
+      if (
+        lowerMessage.includes("capacity") ||
+        lowerMessage.includes("size") ||
+        lowerMessage.includes("space") ||
+        lowerMessage.includes("too large")
+      ) {
         return "The destination URL is too large for this NFC card. Use a shorter URL or a larger tag.";
       }
       return "The tag moved away too soon. Hold it still against the phone until the result shows.";
     case "AbortError":
       return "Cancelled.";
     default:
-      if (lowerMessage.includes("capacity") || lowerMessage.includes("size") || lowerMessage.includes("space") || lowerMessage.includes("too large")) {
+      if (
+        lowerMessage.includes("capacity") ||
+        lowerMessage.includes("size") ||
+        lowerMessage.includes("space") ||
+        lowerMessage.includes("too large")
+      ) {
         return "The destination URL is too large for this NFC card. Use a shorter URL or a larger tag.";
       }
       return message || "Something went wrong with the tag. Try again.";

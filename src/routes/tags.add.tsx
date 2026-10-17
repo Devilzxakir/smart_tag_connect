@@ -11,9 +11,9 @@ import { createTag, type TagMode } from "@/lib/store";
 export const Route = createFileRoute("/tags/add")({
   head: () => ({
     meta: [
-      { title: "Add Tag — NFC Smart Keychain" },
+      { title: "Add Tag — Smart Tag Connect" },
       { name: "description", content: "Create a direct or dynamic NFC keychain tag." },
-      { property: "og:title", content: "Add Tag — NFC Smart Keychain" },
+      { property: "og:title", content: "Add Tag — Smart Tag Connect" },
       { property: "og:description", content: "Create a direct or dynamic NFC keychain tag." },
     ],
   }),

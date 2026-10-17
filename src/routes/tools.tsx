@@ -20,9 +20,9 @@ import { eraseTag, friendlyNfcError } from "@/lib/nfc";
 export const Route = createFileRoute("/tools")({
   head: () => ({
     meta: [
-      { title: "NFC Tools — NFC Smart Keychain" },
+      { title: "NFC Tools — Smart Tag Connect" },
       { name: "description", content: "Read, write, rewrite and erase NFC tags from your phone." },
-      { property: "og:title", content: "NFC Tools — NFC Smart Keychain" },
+      { property: "og:title", content: "NFC Tools — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Read, write, rewrite and erase NFC tags from your phone.",

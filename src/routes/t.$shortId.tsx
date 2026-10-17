@@ -10,9 +10,9 @@ import { resolveTag, submitLostReport, type ResolvedTag } from "@/lib/tags.funct
 export const Route = createFileRoute("/t/$shortId")({
   head: () => ({
     meta: [
-      { title: "Tag link — NFC Smart Keychain" },
+      { title: "Tag link — Smart Tag Connect" },
       { name: "description", content: "Permanent link for an NFC keychain tag." },
-      { property: "og:title", content: "Tag link — NFC Smart Keychain" },
+      { property: "og:title", content: "Tag link — Smart Tag Connect" },
       { property: "og:description", content: "Permanent link for an NFC keychain tag." },
       { name: "robots", content: "noindex" },
     ],

@@ -12,12 +12,12 @@ import { useTheme } from "@/lib/theme";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sign in — NFC Smart Keychain" },
+      { title: "Sign in — Smart Tag Connect" },
       {
         name: "description",
         content: "Sign in to write, read and manage your NFC smart keychain tags.",
       },
-      { property: "og:title", content: "Sign in — NFC Smart Keychain" },
+      { property: "og:title", content: "Sign in — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Sign in to write, read and manage your NFC smart keychain tags.",
@@ -113,9 +113,7 @@ function AuthPage() {
         <div className="mb-6 inline-flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-glow">
           <Nfc className="size-7" />
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          NFC Smart Keychain
-        </h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Smart Tag Connect</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Tap, write and read your smart tags. Prototype build.
         </p>

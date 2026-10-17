@@ -53,12 +53,12 @@ const KINDS: DestinationKind[] = [
 export const Route = createFileRoute("/tags/$tagId")({
   head: () => ({
     meta: [
-      { title: "Tag details — NFC Smart Keychain" },
+      { title: "Tag details — Smart Tag Connect" },
       {
         name: "description",
         content: "View, rename, write, erase and share a single NFC keychain tag.",
       },
-      { property: "og:title", content: "Tag details — NFC Smart Keychain" },
+      { property: "og:title", content: "Tag details — Smart Tag Connect" },
       {
         property: "og:description",
         content: "View, rename, write, erase and share a single NFC keychain tag.",

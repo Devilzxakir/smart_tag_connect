@@ -18,12 +18,12 @@ import {
 export const Route = createFileRoute("/pages/$pageId")({
   head: () => ({
     meta: [
-      { title: "Edit landing page — NFC Smart Keychain" },
+      { title: "Edit landing page — Smart Tag Connect" },
       {
         name: "description",
         content: "Edit the name, image, contact details and buttons of your page.",
       },
-      { property: "og:title", content: "Edit landing page — NFC Smart Keychain" },
+      { property: "og:title", content: "Edit landing page — Smart Tag Connect" },
       {
         property: "og:description",
         content: "Edit the name, image, contact details and buttons of your page.",
