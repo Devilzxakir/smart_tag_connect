@@ -64,8 +64,8 @@ it). The names the app reads:
 | `VITE_SUPABASE_URL` | client bundle |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | client bundle |
 | `VITE_SUPABASE_PROJECT_ID` | client bundle |
+| `VITE_PUBLIC_APP_URL` | optional, public HTTPS origin written to dynamic tags (defaults to `https://smart-tag-connect.vercel.app`) |
 | `DATABASE_URL` | optional, `drizzle-kit` migrations (legacy fallback: `LOVABLE_DB_MIGRATION_URL`) |
-| `CRON_SECRET` / `CRON_SECRET_PREVIOUS` | optional, authenticating scheduled endpoints (legacy fallbacks: `LOVABLE_CRON_SECRET*`) |
 
 ## Local development
 
@@ -112,7 +112,10 @@ devices as described in [docs/NATIVE-APPS.md](docs/NATIVE-APPS.md).
 
 The native shells load the hosted web app over HTTPS (`server.url` in
 `capacitor.config.ts`), so deploy the web app first, then point `server.url`
-at your deployment and sync:
+at the published production URL and sync. Do not use a Lovable editor preview
+URL: previews require Lovable access and return 403 on other phones, which
+breaks every tag written by the native app. The current production URL is
+`https://smart-tag-connect.vercel.app`.
 
 ```sh
 npx cap sync          # after config or plugin changes

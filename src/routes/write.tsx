@@ -169,19 +169,24 @@ function WritePage() {
     setStep("writing");
     const demo = support === "demo";
     try {
+      let tag = target;
+
+      if (isDynamic) {
+        tag ??= await createTag(name, "dynamic");
+        await setDestination(tag.id, normalizeDestination(destination));
+      }
+
       let verified: "verified" | "mismatch" | "unverified" = "unverified";
       if (demo) {
         await new Promise((r) => setTimeout(r, 1200));
       } else {
-        verified = await writeAndVerify(isDynamic ? { type: "url", url: permanentUrl } : payload);
+        verified = await writeAndVerify(
+          isDynamic && tag ? { type: "url", url: tagUrl(tag) } : payload,
+        );
       }
 
-      const tag = target ?? (await createTag(name));
+      tag ??= await createTag(name);
       const finalName = name.trim() || tag.name;
-
-      if (isDynamic) {
-        await setDestination(tag.id, normalizeDestination(destination));
-      }
 
       await updateTag(tag.id, {
         name: finalName,

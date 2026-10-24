@@ -92,10 +92,16 @@ export function formatNumber(n: number) {
   return `Tag ${String(n).padStart(3, "0")}`;
 }
 
-/** Permanent link written to dynamic tags. Uses the app's current URL. */
+const DEFAULT_PUBLIC_APP_ORIGIN = "https://smart-tag-connect.vercel.app";
+
+function publicAppOrigin(): string {
+  const configured = import.meta.env["VITE_PUBLIC_APP_URL"];
+  const value = typeof configured === "string" ? configured.trim() : "";
+  return (value || DEFAULT_PUBLIC_APP_ORIGIN).replace(/\/+$/, "");
+}
+
 export function tagUrl(tag: Pick<Tag, "publicCode">): string {
-  const origin = typeof window === "undefined" ? "" : window.location.origin;
-  return `${origin}/t/${tag.publicCode}`;
+  return `${publicAppOrigin()}/t/${tag.publicCode}`;
 }
 
 /** Same permanent link, marked so scans from a QR code are counted separately. */

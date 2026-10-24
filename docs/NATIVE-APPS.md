@@ -104,6 +104,14 @@ load the hosted site over https instead of bundling a static copy. That URL is
 `server.url` in `capacitor.config.ts` — update it if you publish to a different
 address or add a custom domain, then run `npx cap sync`.
 
+`server.url` must be the public production URL. A Lovable editor preview URL
+requires Lovable access and returns 403 from any other phone, so tags written
+through that native shell point at a dead link. The canonical production origin
+for this deployment is `https://smart-tag-connect.vercel.app`; dynamic tag links
+also use it (or `VITE_PUBLIC_APP_URL` when set) instead of the WebView origin.
+Tags written before this change still contain the old preview URL and must be
+rewritten.
+
 ```bash
 # after any config or plugin change
 npx cap sync

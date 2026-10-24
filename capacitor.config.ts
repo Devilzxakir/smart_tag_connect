@@ -20,7 +20,7 @@ const config: CapacitorConfig = {
   appName: "Smart Tag Connect",
   webDir: "mobile-shell",
   server: {
-    url: "https://project--2d9e18a4-03ac-40ea-b4d9-42fbbb59d484.lovable.app",
+    url: "https://smart-tag-connect.vercel.app",
     cleartext: false,
     androidScheme: "https",
   },
