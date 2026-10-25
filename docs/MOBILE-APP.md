@@ -75,6 +75,18 @@ mobile build: anything baked into the APK can be extracted.
 If no credentials are baked in, the app opens a "Setup required" screen instead
 of failing at runtime.
 
+## Previewing the UI without a phone
+
+`expo export --platform web` builds the same screens for the browser, which is
+handy for reviewing layout and copy (writes fall back to the demo path because
+browsers have no NFC):
+
+```sh
+cd mobile
+npx expo export --platform web --output-dir web-preview
+npx serve web-preview        # any static server works
+```
+
 ## Building an APK in CI
 
 `.github/workflows/mobile-android.yml` builds an installable APK:
