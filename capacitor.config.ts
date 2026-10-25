@@ -16,7 +16,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
  * then run `npx cap sync`.
  */
 const config: CapacitorConfig = {
-  appId: "app.lovable.nfckeychain",
+  appId: "com.smarttagconnect.app",
   appName: "Smart Tag Connect",
   webDir: "mobile-shell",
   server: {

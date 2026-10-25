@@ -5,11 +5,16 @@ tags. Write a URL to a tag, print or share its QR code, and manage every tag
 from one place. Dynamic tags keep a stable link on the chip while the
 destination behind it can be changed at any time.
 
-The same codebase ships as:
+It ships as:
 
-- a server-rendered web app (TanStack Start),
-- an Android app (Capacitor + a native NDEF plugin),
-- an iOS app (Capacitor + Core NFC).
+- a server-rendered web app (TanStack Start) - `src/`,
+- a native Android + iOS app (React Native / Expo) - [`mobile/`](mobile),
+- a legacy Capacitor shell (WebView + a native NDEF plugin) - `android/`, `ios/`.
+
+The React Native app in `mobile/` is the shipping mobile app: it is a real
+native app (not a WebView), shares the Supabase project and the NDEF payload
+format with the web app, and is built to an installable APK by CI. See
+[docs/MOBILE-APP.md](docs/MOBILE-APP.md).
 
 ## Features
 
@@ -108,27 +113,35 @@ NFC cannot be tested in an emulator, the iOS Simulator, or a desktop browser:
 A successful web build proves nothing about NFC behavior. Test on physical
 devices as described in [docs/NATIVE-APPS.md](docs/NATIVE-APPS.md).
 
-## Mobile apps (Capacitor)
-
-The native shells load the hosted web app over HTTPS (`server.url` in
-`capacitor.config.ts`), so deploy the web app first, then point `server.url`
-at the published production URL and sync. Do not use a Lovable editor preview
-URL: previews require Lovable access and return 403 on other phones, which
-breaks every tag written by the native app. The current production URL is
-`https://smart-tag-connect.vercel.app`.
+## Mobile app (React Native / Expo)
 
 ```sh
-npx cap sync          # after config or plugin changes
-npx cap open android  # run on a real NFC phone
-npx cap open ios      # run on a real iPhone
+cd mobile
+cp .env.example .env   # add EXPO_PUBLIC_SUPABASE_URL + publishable key
+npm install
+npx expo run:android   # or: npx expo run:ios (macOS + Xcode)
 ```
 
-See [docs/NATIVE-APPS.md](docs/NATIVE-APPS.md) for required NFC capabilities
-and signing notes. The Android/iOS application id is still
-`app.lovable.nfckeychain`; renaming it requires coordinated changes across
-`capacitor.config.ts`, the Gradle config, the Java package, `strings.xml` and
-the Xcode project (plus any OAuth redirect allow-lists), so treat it as a
-separate migration.
+An installable Android APK is produced by the
+[`Mobile Android APK`](.github/workflows/mobile-android.yml) workflow: open
+Actions -> Mobile Android APK, download the `smart-tag-connect-apk-<sha>`
+artifact and install it on a phone. The app id is `com.smarttagconnect.app` on
+both Android and iOS.
+
+Install steps, configuration, signing and the device test checklist live in
+[mobile/README.md](mobile/README.md); the full architecture guide is
+[docs/MOBILE-APP.md](docs/MOBILE-APP.md).
+
+### Legacy Capacitor shell
+
+`android/`, `ios/`, `capacitor.config.ts` and `mobile-shell/` still contain the
+older Capacitor wrapper, which loads the hosted website in a WebView. It is
+kept for reference and for anyone who prefers that model, but it is no longer
+the recommended way to ship the app. It still uses the custom `SmartNfc`
+plugin; see [docs/NATIVE-APPS.md](docs/NATIVE-APPS.md). The app id was renamed
+to `com.smarttagconnect.app` across `capacitor.config.ts`, the Gradle config,
+the Java package, `strings.xml` and the Xcode project - so it is now the same
+id as the React Native app and the two cannot be installed side by side.
 
 ## Database
 
@@ -168,6 +181,7 @@ including `SUPABASE_SERVICE_ROLE_KEY`. Then update `server.url` in
 src/routes/              file-based routes (auth, tags, write, read, tools, ...)
 src/lib/nfc.ts           payload encoding, validation, size checks, verification
 src/lib/nfc-services/    Web NFC, native (Capacitor) and mock implementations
+mobile/                  React Native (Expo) app: screens, NFC bridge, Supabase data layer
 src/lib/store.ts         auth + tag data store used by the UI
 src/lib/tags.functions.ts, pages.functions.ts   server functions
 src/integrations/supabase/  Supabase clients, auth middleware, generated types
