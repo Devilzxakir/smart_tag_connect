@@ -123,12 +123,14 @@ npx expo run:android   # or: npx expo run:ios (macOS + Xcode)
 ```
 
 An installable Android APK is produced by the
-[`Mobile Android APK`](.github/workflows/mobile-android.yml) workflow (Actions ->
-Run workflow -> download the artifact). The app id is `com.smarttagconnect.app`
-on both Android and iOS.
+[`Mobile Android APK`](.github/workflows/mobile-android.yml) workflow: open
+Actions -> Mobile Android APK, download the `smart-tag-connect-apk-<sha>`
+artifact and install it on a phone. The app id is `com.smarttagconnect.app` on
+both Android and iOS.
 
-Full details - screens, credentials, signing, NFC testing on real hardware -
-are in [docs/MOBILE-APP.md](docs/MOBILE-APP.md).
+Install steps, configuration, signing and the device test checklist live in
+[mobile/README.md](mobile/README.md); the full architecture guide is
+[docs/MOBILE-APP.md](docs/MOBILE-APP.md).
 
 ### Legacy Capacitor shell
 

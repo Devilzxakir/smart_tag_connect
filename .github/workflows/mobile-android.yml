@@ -128,6 +128,10 @@ jobs:
             echo "EXPO_NO_TELEMETRY=1"
           } > .env
 
+      - name: Type check
+        working-directory: mobile
+        run: npx tsc --noEmit
+
       - name: Generate native Android project
         working-directory: mobile
         run: npx expo prebuild --platform android --clean --no-install
