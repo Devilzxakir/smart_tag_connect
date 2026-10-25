@@ -1,0 +1,26 @@
+# Expo / React Native build output
+node_modules/
+.expo/
+dist/
+web-build/
+
+# Generated native projects (Expo Continuous Native Generation).
+# Run `npx expo prebuild` to recreate them; never hand-edit them.
+/android/
+/ios/
+
+# Signing material — never commit keystores or their passwords
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
+!debug.keystore
+
+# Local environment (Supabase URL + publishable key)
+.env
+.env.local
+
+# Editor / OS noise
+.DS_Store
+*.log

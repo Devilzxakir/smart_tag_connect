@@ -1,4 +1,4 @@
-package app.lovable.nfckeychain;
+package com.smarttagconnect.app;
 
 import android.app.Activity;
 import android.nfc.NdefMessage;

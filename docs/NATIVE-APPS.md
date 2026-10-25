@@ -1,4 +1,10 @@
-# Smart Tag Connect — web, Android and iOS
+# Smart Tag Connect — legacy Capacitor shell
+
+> **Superseded.** The shipping mobile app is now the React Native app in
+> [`mobile/`](../mobile) - see [MOBILE-APP.md](MOBILE-APP.md). This document
+> describes the older Capacitor wrapper, which loads the hosted website in a
+> WebView. It is kept because the project still builds and because the native
+> `SmartNfc` plugin is useful reference, but new work should target `mobile/`.
 
 One codebase, three places it runs:
 
@@ -26,7 +32,7 @@ src/lib/nfc-services/index.ts   getNfcService() picks the implementation
         ├── MockNfcService    (demo)
         ├── WebNfcService     (browser NDEFReader)
         └── NativeNfcService  (Capacitor plugin "SmartNfc")
-                ├── android/app/src/main/java/app/lovable/nfckeychain/SmartNfcPlugin.java
+                ├── android/app/src/main/java/com/smarttagconnect/app/SmartNfcPlugin.java
                 └── ios/App/App/SmartNfcPlugin.swift
 ```
 
