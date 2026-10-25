@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Device from "expo-device";
 import { useCallback, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 
 import { AppHeader } from "@/components/app-header";
 import { Badge, Body, Button, Card, Heading, KeyValue, Label, Screen } from "@/components/ui";
@@ -56,7 +56,7 @@ export default function DiagnosticsScreen() {
           <KeyValue label="Device" value={Device.deviceName ?? Device.modelName ?? "unknown"} />
           <KeyValue label="Model" value={Device.modelName ?? "unknown"} />
           <KeyValue label="OS" value={`${Device.osName ?? "unknown"} ${Device.osVersion ?? ""}`} />
-          <KeyValue label="NFC engine" value="react-native-nfc-manager" />
+          <KeyValue label="NFC engine" value={Platform.OS === "web" ? "browser (no NFC)" : "react-native-nfc-manager"} />
           <KeyValue label="NFC supported" value={nfc?.supported ? "yes" : "no"} />
           <KeyValue label="NFC enabled" value={nfc?.enabled ? "yes" : "no"} />
         </Card>

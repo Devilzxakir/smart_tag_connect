@@ -157,7 +157,7 @@ export default function HomeScreen() {
           </View>
           <View style={{ flexDirection: "row", gap: spacing.sm }}>
             <Pressable
-              onPress={() => router.push("/(tabs)/write")}
+              onPress={() => router.navigate("/(tabs)/write")}
               style={({ pressed }) => ({
                 flex: 1,
                 flexDirection: "row",
@@ -203,7 +203,7 @@ export default function HomeScreen() {
 
         <SectionHeader
           title="Recent tags"
-          action={tags.length > 0 ? () => router.push("/(tabs)/tags") : undefined}
+          action={tags.length > 0 ? () => router.navigate("/(tabs)/tags") : undefined}
           actionLabel="See all"
         />
 
@@ -216,7 +216,7 @@ export default function HomeScreen() {
             <Body muted size={13} style={{ textAlign: "center" }}>
               Create a tag to keep a link, then write it to a chip.
             </Body>
-            <Pressable onPress={() => router.push("/(tabs)/write")} style={{ marginTop: 4 }}>
+            <Pressable onPress={() => router.navigate("/(tabs)/write")} style={{ marginTop: 4 }}>
               <Text style={{ color: palette.primary, fontWeight: "600", fontSize: 13 }}>Create your first tag</Text>
             </Pressable>
           </Card>

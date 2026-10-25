@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AppHeader } from "@/components/app-header";
 import { NfcPulse } from "@/components/nfc-pulse";
@@ -567,12 +567,6 @@ export default function WriteScreen() {
               style={{ alignSelf: "flex-start", marginTop: 4 }}
             />
           </Card>
-        ) : null}
-
-        {busy ? (
-          <View style={{ position: "absolute", opacity: 0 }}>
-            <ActivityIndicator />
-          </View>
         ) : null}
       </Screen>
     </View>
