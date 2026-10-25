@@ -50,23 +50,48 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: mobile/package-lock.json
 
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # The runner image already ships the Android SDK; install the exact
+      # platform/build-tools the generated project asks for (Expo SDK 58
+      # defaults to compileSdk 37 / build-tools 37.0.0).
+      - name: Ensure Android SDK packages
+        run: |
+          set -eu
+          sdk="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/android-sdk}}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$sdk" >> "$GITHUB_ENV"
+
+          manager="$(command -v sdkmanager || true)"
+          if [ -z "$manager" ] && [ -x "$sdk/cmdline-tools/latest/bin/sdkmanager" ]; then
+            manager="$sdk/cmdline-tools/latest/bin/sdkmanager"
+          fi
+
+          if [ -z "$manager" ]; then
+            echo "::warning::No sdkmanager on this runner; using whatever the image provides."
+          else
+            timeout 300 bash -c "yes | '$manager' --licenses > /dev/null 2>&1" || true
+            "$manager" --install "platform-tools" "platforms;android-37" "build-tools;37.0.0" || \
+              echo "::warning::Could not pre-install every SDK package; Gradle will report what is missing."
+          fi
+
+          echo "Installed platforms:"; ls "$sdk/platforms" || true
+          echo "Installed build-tools:"; ls "$sdk/build-tools" || true
+          java -version 2>&1 | head -2
+          node --version
 
       - name: Install dependencies
         working-directory: mobile
